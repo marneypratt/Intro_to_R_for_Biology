@@ -1,0 +1,5 @@
+readr
+ggplot2
+dplyr
+carData
+ggfortify

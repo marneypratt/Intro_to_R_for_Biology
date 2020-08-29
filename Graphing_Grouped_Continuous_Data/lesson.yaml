@@ -1,0 +1,241 @@
+- Class: meta
+  Course: Intro to R for Biology
+  Lesson: Graphing Grouped Continuous Data
+  Author: Marney Pratt
+  Type: Standard
+  Organization: Smith College
+  Version: 2.4.4
+
+- Class: text
+  Output: Graphing grouped continuous data is very common in Biology.  For example, comparing the growth rate of caterpillars fed two different diets or the height of trees grown in drought compared to well-watered conditions.  
+
+- Class: text
+  Output: However, common graph types used can make it impossible for a reader to critically evaluate and interpret the data and accompanying conclusions.  This lesson demonstrates how to make several different types of graphs that are more effective at allowing the readers to critically evaluate the data.  
+
+- Class: text
+  Output: At the end of the lesson, you will choose what you think is the best graph to represent the data to turn in to your instructor.
+
+- Class: text
+  Output: Before completing this lesson, you should be familiar with variable types, normal distributions, descriptive statistics (especially mean, standard deviation, median, and interquartile range), and what is represented in a histogram, boxplot, and violin plot.
+
+- Class: text
+  Output: While not necessary to complete this lesson, you should know how to do the following to understand the code from this lesson - how to look at and understand the structure of a data frame, filter and summarize data using dplyr, and understand the basic grammar of graphics used in ggplot. 
+
+- Class: video
+  Output: If you are unfamiliar with any of these basic statistical terms and concepts, answer Yes to the question below to open a link with some resources. It is helpful to open this link and keep it open in a tab on your browser so you can refer back to it throughout this lesson as needed. 
+  VideoLink: https://docs.google.com/document/d/e/2PACX-1vTRMYrJYm4DtGURF6voY0AwhFFGnIvjYleoC5qgH5uVzRmCNXO9EJuKLK5ihvH3rMvWtnuPZ_7qU13i/pub
+ 
+- Class: text
+  Output: For this lesson, we will use data on the density of an invasive insect pest on Eastern hemlock trees.  
+
+- Class: text
+  Output: The data were collected by Smith College students from the Research in Biodiversity, Ecology, and Conservation (Bio 131) course beginning in March of 2015. The dataset includes data from several semesters, and four different locations in Western Massachusetts. See the resources for this lesson for a link to the metadata file that describes the dataset (includes precise locations, methodology, variable definitions, etc.).
+
+- Class: text
+  Output: Let's start by exploring invasive insectdensity at the 4 different forest locations.  The invasive insect is the elongate hemlock scale, which we will refer to as EHS in this lesson.
+
+- Class: mult_question
+  Output: If we want to know if the density of EHS is different among the different forest locations, what would be the dependent variable?
+  AnswerChoices: EHS density;forest location
+  CorrectAnswer: EHS density
+  AnswerTests: omnitest(correctVal='EHS density')
+  Hint: Remember - the dependent variable is the variable being measured in response to the independent variable which is the controlled variable.
+
+- Class: mult_question
+  Output: Given your answer to the previous question, you probably now know what the independent variable is as well.  Please select the independent variable below.
+  AnswerChoices: forest location;EHS density
+  CorrectAnswer: forest location
+  AnswerTests: omnitest(correctVal='forest location')
+  Hint: Remember - the independent variable is the thing chosen or controlled ahead of time.
+
+- Class: mult_question
+  Output: What type of variable is EHS density?
+  AnswerChoices: continuous;nominal;categorical;ordinal
+  CorrectAnswer: continuous
+  AnswerTests: omnitest(correctVal='continuous')
+  Hint: Remember - density was measured as the number of insects per centimeter of branch.  What kind of values would these be?
+
+- Class: mult_question
+  Output: What type of variable is forest location?
+  AnswerChoices: categorical;continuous;measurement;discrete;ordinal
+  CorrectAnswer: categorical
+  AnswerTests: omnitest(correctVal='categorical')
+  Hint: Remember - forest location does not have a natural order and each location does not take on any measureable or countable value in a range of values
+
+- Class: text
+  Output: Now you know we have a continuous dependent variable (EHS density) and a categorical independent variable (forest location, with 4 locations).  A common way to graph this type of data is a bar graph showing the means with standard errors as the error bars. 
+
+- Class: figure
+  Output: Before we make this bar graph, we first have to calculate some of the descriptive statistics (including the mean, standard deviation, median, interquartile range, and number of cases) as well as the standard error of the mean (which is inferential and not descriptive). This was done for you and will show below.  See the Resources for this lesson to see the code used.
+  Figure: EHS-descriptives.R
+  FigureType: new
+
+- Class: figure
+  Output: Click on the Plots window in the lower righthand corner of RStudio to see a bar graph showing the means plus or minus one standard error for EHS density in the 4 forest locations.
+  Figure: EHS_bar.R
+  FigureType: new
+
+- Class: text
+  Output: See the resources to see all the code used to make the graphs in this lesson.  
+
+- Class: mult_question
+  Output: Just from looking at the graph, what is the sample size of each group?
+  AnswerChoices: unclear;50;218;>40
+  CorrectAnswer: unclear
+  AnswerTests: omnitest(correctVal='unclear')
+  Hint: Can you tell just from looking at the graph how many cases there are in each group?
+
+- Class: mult_question
+  Output: Which of the locations have some EHS density values greater than 1.5 insects/cm?
+  AnswerChoices: all of them;FLE and MCL; FLE MCL and SMC; none of them
+  CorrectAnswer: all of them
+  AnswerTests: omnitest(correctVal='all of them')
+  Hint: Remember that the bars show the means plus or minus the standard errors of the mean, but they do not show all the EHS density values for each location.
+
+- Class: mult_question
+  Output: Does EHS density show a normal distribution?
+  AnswerChoices: cannot tell from this graph;yes, it is normally distributed;no, it is not normally distributed
+  CorrectAnswer: cannot tell from this graph
+  AnswerTests: omnitest(correctVal='cannot tell from this graph')
+  Hint: What are some ways you CAN determine if a distribution is normal?  Does a bar graph of means and SE allow us to evaluate the distribution of the data?
+
+- Class: text
+  Output: Did those previous three questions help you see that bar graphs can be misleading?
+
+- Class: text
+  Output: See the resources for this lesson for a link to a paper in the journal Circulation from Weissgerber and colleagues published in 2019 (and the references cited within it).  This paper is a good overview of why it is recommended that you DO NOT use bar graphs for data with continuous dependent variables grouped by a categorical independent variable.
+
+- Class: text
+  Output: Before choosing the best way to graph your data, it is good to explore the data and determine the sample size and distribution.
+
+- Class: cmd_question
+  Output: We already determined the sample size of each location.  Type print(EHS.sum) in the console to show the values again.
+  CorrectAnswer: print(EHS.sum)
+  AnswerTests: omnitest(correctExpr='print(EHS.sum)')
+  Hint: Type print(EHS.sum) in the console
+
+- Class: exact_question
+  Output: What is the sample size of the smallest sample?
+  CorrectAnswer: 48
+  AnswerTests: omnitest(correctVal='48')
+  Hint: Look at the n for SMC
+
+- Class: text
+  Output: A histogram is a useful tool to look at the distribution of your data.  It is not possible to effectively use a histogram on small sample sizes.  Some statisticians recommend you use histograms only when you have at least 30 cases.
+
+- Class: mult_question
+  Output: Do all the location have greater than 30 cases?
+  AnswerChoices: Yes;No
+  CorrectAnswer: Yes
+  AnswerTests: omnitest(correctVal='Yes')
+  Hint: We just determined that the location with the smallest sample size was SMC.  Did that location have more than 30 cases?
+
+- Class: figure
+  Output: Look at the Plot window to see a histogram of one location - starting with FLH
+  Figure: EHS_FLH_histogram.R
+  FigureType: new
+
+- Class: mult_question
+  Output: Does it look like this location exhibits a normal distribution for EHS density? 
+  AnswerChoices: No;Yes
+  CorrectAnswer: No
+  AnswerTests: omnitest(correctVal='No')
+  Hint: Recall that the mean value for this location is 1.0 insects/cm and the bars should show a nice symmetrical bell-shaped curve distribution around the mean if it is normally distributed.
+
+- Class: text
+  Output: You should notice from the histogram that there are a LOT of zeros and the data are not at all close to a normal distribution.  Using a mean and standard error is not an appropriate way to summarize or represent these data.  What kind of graph should we use?  We can use a histogram, but some people find it is difficult to compare histograms of several different groups.
+
+- Class: figure
+  Output: Look in the Plot window for a histogram of all 4 locations graphed on the same scale.  Putting them all on the same scale makes the histogram for some of the locations pretty hard to see
+  Figure: all_histogram.R
+  FigureType: new
+
+- Class: text
+  Output: Another type of graph that can be useful is the box plot.  A box plot summarizes the data by showing the median (the middle value where 50% of the data is above and below it, also called Q2 or the second quartile) as a solid line in the middle of a box whose limits are set by the interquartile range (which is the middle 50% of the data, between the first and third quartile).  Also shown are whiskers (you can change how these are defined so make sure you know how the code you are using is defining them) and any points outside of the whiskers are usually considered outliers.  
+
+- Class: text
+  Output: An advantage of the box plot is that it gives you more information and can be used for distributions that are not normal as well as for those that are normal.  Like the histogram, a box plot is only useful when you have a large enough sample size.  Many statisticians recommend having at least 30 points per group to use box plots. See the resources for the "Graphing with ggplot" lesson if you want more information about boxplots.
+
+- Class: figure
+  Output: As we determined earlier, each of our locations has more than 30 cases so a box plot could be an appropriate way to summarize and present these data.  Take a look at the box plot shown in the Plots window. Note that the X in the box plots represents the mean, and outliers are shown as points outside of the limits of the whiskers.
+  Figure: EHS_box.R
+  FigureType: new
+
+- Class: mult_question
+  Output: If the data are normally distributed, the mean and the median should be the same.  Are the median (thick horizontal line inside the box) and the mean (x) close together?
+  AnswerChoices: No;Yes
+  CorrectAnswer: No
+  AnswerTests: omnitest(correctVal='No')
+  Hint: If the median and the mean are the same, then the mean (the x) should sit right on top of (or very close to) the median (thick horizontal line inside the box)
+
+- Class: text
+  Output: The fact that the mean and the median are not very close is another piece of evidence that the data are not normally distributed.  The fact that the median is not in the center of the box and that the whiskers are not the same length above and below the box are also indications that the distribution is not normal.
+
+- Class: text
+  Output: All the locations also have at least one outlier.  The FLH location has the most outliers.
+
+- Class: text
+  Output: You can see that the box plots give more useful information and give a more accurate representation of the data than a bar graph showing the means and standard errors.
+
+- Class: text
+  Output: One thing we cannot tell from this box plot is what the sample size is for each location.  We also can't see what the precise distribution of the data is.
+
+- Class: figure
+  Output: We can add the points to the box plots which allows us to have a better sense of the sample size and the distribution of the data.  Look at the Plots window to see a box plot with points added. Note that these points are "randomly jittered" laterally so you can see overlapping points.
+  Figure: EHS_box_points.R
+  FigureType: new
+
+- Class: figure
+  Output: Another way to avoid overlapping points is to symmetrically jitter the points using the "beeswarm" method which stacks the points that overlap laterally so you can see the distribution of points better (when points spread out wider, that means there are more points in that part of the distribution).  Look in the Plots window for the same graph but with points beeswarm jittered.
+  Figure: EHS_box_beeswarm.R
+  FigureType: new
+
+- Class: figure
+  Output: Yet another way to avoid overlapping points is to jitter the points using the "quasirandom" method (which uses a van der Corput sequence).  Look in the Plots window for the same graph but with points quasirandom jittered.
+  Figure: EHS_box_quasi.R
+  FigureType: new
+
+- Class: text
+  Output: When you have very large sample sizes, showing all the points can get overwhelming.  Another option is to make a violin plot, which shows the density estimate for each group.  The more data in a specific range, the wider the violin goes in that range.  It helps give a good sense of the distribution of the data by showing the shape.  
+
+- Class: figure
+  Output: Look in the Plots window for an example violin plot for the EHS density at the four locations.  Box plots have been added inside the violin plots and the outliers are still indicated by points.  This graph is similar to the box plot with quasirandom jittered points, except the points have been replaced by a violin plot and the box plots are smaller.  The sample size for each location has also been added along the x-axis (because you can't see the points, you really need to indicate sample size in the graph or in the figure legend).
+  Figure: EHS_violin.R
+  FigureType: new
+
+- Class: text
+  Output: When the sample size is very small, you cannot summarize with a violin plot, box plot, or histogram.  Instead, you should show all the points and a measure of central tendency (mean or median) using a dot plot.  
+
+- Class: text
+  Output: How small is small?  That is not an easy question to answer.  When the sample size is less than ~20 it is usually best to show all the data in a dot plot (remember that box plots aren't useful unless n>30 for each group).  
+
+- Class: figure
+  Output: Look in the Plots window for a dot plot with the mean shown as the thick horizontal bar and points randomly jittered for the data for one semester (in this case, the Winter of 2019)
+  Figure: small_dot_mean.R
+  FigureType: new
+
+- Class: text
+  Output: Recall from when we added points to boxplots that you can jitter the points using different methods. You can see the code for this lesson to see dot plots jittered with three different methods (random, beeswarm, and quasirandom).
+
+- Class: text
+  Output: While it can be hard or even impossible to tell if a small sample size is normal or not (again, you need around 20-30 cases in each group to determine if the data are normally distributed), we know from looking at the larger dataset that EHS density is not normally distributed.  A better choice for the measure of central tendency would be the median.  
+
+- Class: figure
+  Output: The graph now showing in the Plots window is a dot plot with the median for EHS Density in Winter of 2019.
+  Figure: small_dot_median.R
+  FigureType: new
+
+- Class: text
+  Output: You have now seen several different ways to graph the EHS density data in these 4 forest plots.  Choose which one you think best presents these data.  You can scroll through the different graphs by clicking on the left and right arrows at the top of the Plots window.  Find the one you like best, then click Export and then Save as Image.
+
+- Class: text
+  Output: Once you have saved your preferred graph of EHS density for the 4 locations, then turn your graph in as instructed (paper printout, learning management system, lab notebook, Google Form, or whatever your instructor tells you).  Make sure to include a proper figure legend below the graph.
+
+- Class: text
+  Output: A figure legend needs to make it possible for a reader to completely understand and interpret your graph with just the graph and the figure legend.  All symbols must be defined, sample size should be included in some fashion, and add other important details (for example, full species names, full location names including where in the world these locations are, date range when data are collected, etc).
+
+- Class: text
+  Output: Remember, that you can look at the help file for a graph if you need to know more about it to help describe all the symbols in your figure legend.  For example, type ?geom_boxplot or ?geom_violin in the console or just search for the function you want in the help window.  
+
+- Class: text
+  Output: I hope this lesson has helped you learn how to choose and make the best graph for grouped continuous data using ggplot.

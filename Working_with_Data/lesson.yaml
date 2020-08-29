@@ -1,0 +1,268 @@
+- Class: meta
+  Course: Intro to R for Biology
+  Lesson: Working with Data
+  Author: Marney Pratt
+  Type: Standard
+  Organization: Smith College
+  Version: 2.4.4
+
+- Class: video
+  Output: Answer Yes to the question below if you want to open a link with some resources for this lesson.  It is helpful to open this link and keep it open in a tab on your browser so you can refer back to it throughout this lesson as needed. 
+  VideoLink: https://docs.google.com/document/d/e/2PACX-1vTRMYrJYm4DtGURF6voY0AwhFFGnIvjYleoC5qgH5uVzRmCNXO9EJuKLK5ihvH3rMvWtnuPZ_7qU13i/pub
+
+- Class: text
+  Output: In this lesson, we will learn some basic ways to manipulate a data frame such as filtering, sorting, grouping, and making calculations with a package called dplyr.  See the resources for this lesson for links with more details on how to use dplyr.
+
+- Class: text
+  Output: A data file called hemlock_diam.csv has been imported for you into a data frame called hemlocks (actually, this is a slightly nicer version of a data frame called a "tibble")(see the lesson called "Getting Data into R" if you want to know how to import this file yourself).
+
+- Class: text
+  Output: The data were collected by Smith College Bio 131 students.  They measured the diameter and height for eastern hemlock trees at 4 locations in Western Massachusetts. You can look at the metadata link in the resources for this lesson to learn more about the hemlocks data.
+
+- Class: cmd_question
+  Output: Use the glimpse() function from the dplyr package to look at the structure of the hemlocks data (this is similar to the str() function we used in the previous lesson)
+  CorrectAnswer: glimpse(hemlocks)
+  AnswerTests: omnitest(correctExpr='glimpse(hemlocks)')
+  Hint: Type glimpse(hemlocks) in the console then press Enter
+
+- Class: text
+  Output: Notice that this data frame has several variables that are factors, a date variable, and a few numeric variables (shown as <dbl> which stands for double-precision floating point number which uses more memory to represent a value - basically just think of it as the same thing as numeric) 
+
+- Class: cmd_question
+  Output: How many trees were measured in this data frame (in other words, how many observations are there? You can scroll up through the console if you need to)
+  CorrectAnswer: 298
+  AnswerTests: omnitest(correctVal='298')
+  Hint: Use the output from glimpse(hemlocks) or look at the Global Environment in the upper right panel and look at the number of observations (you can scroll up through the console if needed to see the results of the glimpse() function)
+
+- Class: text
+  Output: In addition to using the glimpse() function, we can also use the summary() function which will give the minimum, 1st quartile, median, mean, 3rd quartile, maximum, and number of missing values (NA's) for each numeric variable (numeric columns), and the number of each category for each categorical variable (factor columns)
+
+- Class: cmd_question
+  Output: Use the summary() function on the hemlocks data.
+  CorrectAnswer: summary(hemlocks)
+  AnswerTests: omnitest(correctExpr='summary(hemlocks)')
+  Hint: Type summary(hemlocks) in the console and press Enter
+
+- Class: mult_question
+  Output: Which variable has some missing values (denoted by having NA's)(scroll up or expand the console panel if needed)?
+  AnswerChoices: location;date;tag;size.group;diameter;height;infest
+  CorrectAnswer: height
+  AnswerTests: omnitest(correctVal='height')
+  Hint: Using the results from summary(hemlocks), which variable includes a count for NA's? (you can scroll up through the console if needed to see the results of the summary() function)
+
+- Class: text
+  Output: The reason there are so many missing values for height, is that the Smith College Bio 131 students have been measuring the diameter of the hemlock trees in all the years of data collection, but they only measured the height in some years.
+
+- Class: text
+  Output: Let's say that we are interested in only looking at data from Smith College (location is "SMC") where students actually measured the height of the trees.  
+
+- Class: text
+  Output: Let's start with location.  If we remove all the values for the other locations, that will remove lots of rows from the dataset.  To remove rows, we use the filter() function from the dplyr package.
+
+- Class: cmd_question
+  Output: To pull up the help file on the filter() function, type ?dplyr::filter in the console now.
+  CorrectAnswer: ?dplyr::filter
+  AnswerTests: omnitest(correctExpr='?dplyr::filter')
+  Hint: Type ?dplyr::filter in the console and press Enter
+
+- Class: text
+  Output: Note that the first argument that the filter() function expects to see is the data in the form of a data frame.  The hemlocks dataset was already imported as a tibble, which is a special form of a data frame, so we just have to put the tibble object name in that location.
+
+- Class: text
+  Output: The next argument is the part where we tell it which things we want to keep using comparison (equals, greater than, less than, etc) and logical (and, or, not) operators.  The last argument (.preserve) we will not be using here.
+
+- Class: text
+  Output: It is important to note that when you want the equal symbol in the filter() function, you have to use two equals signs together (==).  See the resources for this lesson for a link to all the comparison operators.  
+
+- Class: text
+  Output: Another important thing is that when you are trying to filter for a character string (words rather than numbers), you need to put the character string in quotes.
+
+- Class: cmd_question
+  Output: Thus, to use filter() to choose just the Smith College location and give the result a new name (hemlocks.r) we would type hemlocks.r <- filter(hemlocks, location == "SMC").  Type this code in the console now.
+  CorrectAnswer: hemlocks.r <- filter(hemlocks, location == "SMC")
+  AnswerTests: omnitest(correctExpr='hemlocks.r <- filter(hemlocks, location == "SMC")')
+  Hint: Type hemlocks.r <- filter(hemlocks, location == "SMC") in the console and press Enter
+
+- Class: cmd_question
+  Output: Look at the number of observations shown for hemlocks.r in the Global Environment.  How many observations does the new file have?
+  CorrectAnswer: 65
+  AnswerTests: omnitest(correctExpr='65')
+  Hint: The original file (with all 4 locations) had 298 observations, how many observations does hemlocks.r have?
+
+- Class: cmd_question
+  Output: Use the View() function on the hemlocks.r dataset
+  CorrectAnswer: View(hemlocks.r)
+  AnswerTests: omnitest(correctExpr='View(hemlocks.r)')
+  Hint: Type View(hemlocks.r) in the console
+
+- Class: mult_question
+  Output: Scroll through the hemlocks.r file that pops up from the View() function.  Do all the cells in the location column have SMC now?
+  AnswerChoices: yes;no
+  CorrectAnswer: yes
+  AnswerTests: omnitest(correctVal='yes')
+  Hint: If you did the filtering correctly, you should only have SMC showing in the full location column in the hemlocks.r dataset
+
+- Class: text
+  Output: Remember that we wanted data from Smith College, but also only data that have height measurements.  If you scroll through the spreadsheet from the View() function for hemlocks.r you will see there are still many rows with NA's for height.
+
+- Class: text
+  Output: A useful function that we can use within the filter function is is.na().  This function will select all the rows with NA's.  In this case we want to REMOVE all the rows with NA's, so we place an exclamation point in front of the function to denote NOT (! means not equal to in R)
+
+- Class: cmd_question
+  Output: To REMOVE the NA's for height, use the following code (we are just going to overwrite the same object) -- hemlocks.r <- filter(hemlocks.r, !is.na(height)).  Type this code in the console now.
+  CorrectAnswer: hemlocks.r <- filter(hemlocks.r, !is.na(height))
+  AnswerTests: omnitest(correctExpr='hemlocks.r <- filter(hemlocks.r, !is.na(height))')
+  Hint: Type hemlocks.r <- filter(hemlocks.r, !is.na(height)) in the console and press Enter
+ 
+- Class: cmd_question
+  Output: How many observations does the hemlocks.r dataset have now?
+  CorrectAnswer: 31
+  AnswerTests: omnitest(correctExpr='31')
+  Hint: Look at the number of observations shown for hemlocks.r in the Global Environment. How many observations does hemlocks.r have now?
+
+- Class: cmd_question
+  Output: Use the View() function on the hemlocks.r dataset again
+  CorrectAnswer: View(hemlocks.r)
+  AnswerTests: omnitest(correctExpr='View(hemlocks.r)')
+  Hint: Type View(hemlocks.r) in the console
+
+- Class: mult_question
+  Output: Scroll through the hemlocks.r file that pops up from the View() function.  Do all the cells in the height column have values now (no NA's)?
+  AnswerChoices: yes;no
+  CorrectAnswer: yes
+  AnswerTests: omnitest(correctVal='yes')
+  Hint: If you did the filtering correctly, you should only no remaining NA's in the height variable for the hemlocks.r dataset
+
+- Class: cmd_question
+  Output: We can use another function called arrange() in the dplyr package to sort the dataset if needed.  Type hemlocks.r <- arrange(hemlocks.r, height) in the console to sort by height in ascending order.
+  CorrectAnswer: hemlocks.r <- arrange(hemlocks.r, height)
+  AnswerTests: omnitest(correctExpr='hemlocks.r <- arrange(hemlocks.r, height)')
+  Hint: Type hemlocks.r <- arrange(hemlocks.r, height) in the console
+
+- Class: cmd_question
+  Output: Use the View() function on the hemlocks.r dataset again
+  CorrectAnswer: View(hemlocks.r)
+  AnswerTests: omnitest(correctExpr='View(hemlocks.r)')
+  Hint: Type View(hemlocks.r) in the console
+
+- Class: text
+  Output: Notice that the height variable now starts at the lowest value and then increases to the greatest value.  
+
+- Class: text
+  Output: Sorting can sometimes be required for certain analyses but can also be useful for doing quality control on your data to make sure you don't have any more missing values or weirdly high or low values. 
+
+- Class: text
+  Output: In some cases, it might also be necessary to remove columns from your data.  We can use the select() function in dplyr to select just the columns we want.  It works similarly to filter(), but in this case we are working on columns rather than rows.
+
+- Class: cmd_question
+  Output:  Select for the following columns only in the hemlocks.r dataset (and assign it the same name) -- location, size.group, diameter, height 
+  CorrectAnswer: hemlocks.r <- select(hemlocks.r, location, size.group, diameter, height)
+  AnswerTests: omnitest(correctExpr='hemlocks.r <- select(hemlocks.r, location, size.group, diameter, height)')
+  Hint: Type hemlocks.r <- select(hemlocks.r, location, size.group, diameter, height) in the console and press Enter
+
+- Class: cmd_question
+  Output: How many variables does the hemlocks.r dataset have now?
+  CorrectAnswer: 4
+  AnswerTests: omnitest(correctExpr='4')
+  Hint: Look at the number of observations shown for hemlocks.r in the Global Environment. How many variables does hemlocks.r have now?
+
+- Class: cmd_question
+  Output: Use the summary() function on the hemlocks.r data.
+  CorrectAnswer: summary(hemlocks.r)
+  AnswerTests: omnitest(correctExpr='summary(hemlocks.r)')
+  Hint: Type summary(hemlocks.r) in the console and press Enter
+
+- Class: mult_question
+  Output: According to the summary results for hemlocks.r, how many of the Smith College hemlock trees with measurements for height were "Mature" trees?
+  AnswerChoices: 92;29;16;9;6
+  CorrectAnswer: 16
+  AnswerTests: omnitest(correctVal='16')
+  Hint: If you did the filtering correctly, you should have 16 mature trees at Smith College that have measurements for height
+
+- Class: text
+  Output: Another function in dplyr is slice() which allows you to select particular rows.  Since we already have the dataset sorted by height, let's select the first 3 rows to get the 3 shortest trees.
+
+- Class: cmd_question
+  Output: Use the slice() function on the hemlocks.r data to select the first three rows (use 1:3 as the second argument in the function and don't give this a new object name)
+  CorrectAnswer: slice(hemlocks.r, 1:3)
+  AnswerTests: omnitest(correctExpr='slice(hemlocks.r, 1:3)')
+  Hint: Type slice(hemlocks.r, 1:3) in the console and press Enter
+
+- Class: text
+  Output: We can also use dplyr to do calculations on a column using the mutate() function.
+
+- Class: text
+  Output: Let's say we want the radius of the trees rather than the diameter.  We can use mutate() to just divide the diameter column in half.
+
+- Class: cmd_question
+  Output: Use the mutate() function on the hemlocks.r data to transform diameter into radius using this code -- hemlocks.r <- mutate(hemlocks.r, radius = diameter/2)
+  CorrectAnswer: hemlocks.r <- mutate(hemlocks.r, radius = diameter/2)
+  AnswerTests: omnitest(correctExpr='hemlocks.r <- mutate(hemlocks.r, radius = diameter/2)')
+  Hint: Type hemlocks.r <- mutate(hemlocks.r, radius = diameter/2) in the console and press Enter
+
+- Class: cmd_question
+  Output: Use the View() function on the hemlocks.r dataset again
+  CorrectAnswer: View(hemlocks.r)
+  AnswerTests: omnitest(correctExpr='View(hemlocks.r)')
+  Hint: Type View(hemlocks.r) in the console
+
+- Class: text
+  Output: You should now see a new column added to the dataset called radius with values that are half the diameter values
+
+- Class: text
+  Output: dplyr has two other functions -- group_by() and summarize() which we will explore in the lesson called Descriptive Statistics 
+
+- Class: text
+  Output: A really handy thing we can use to chain together a bunch of different lines of code is the pipe operator (%>%).  The pipe operator is actually from a package called magrittr, but this gets installed automatically when you install dplyr so you don't have to load it yourself.
+
+- Class: text
+  Output: Think of the pipe operator as being the same as "then".  Basically, you take the output of one set of code and then "pipe" the result into the next line of code.  It allows you to chain a bunch of code together.
+
+- Class: text
+  Output: Let's say you want to take the original hemlocks dataset and filter for trees from the McLeish Field Station location ("MCL") and then sort the result by diameter.
+
+- Class: cmd_question
+  Output: Type this code into the console -- hemlocks.f <- hemlocks %>% filter(location == "MCL") %>% arrange(diameter)
+  CorrectAnswer: hemlocks.f <- hemlocks %>% filter(location == "MCL") %>% arrange(diameter)
+  AnswerTests: omnitest(correctExpr='hemlocks.f <- hemlocks %>% filter(location == "MCL") %>% arrange(diameter)')
+  Hint: Type this code into the console -- hemlocks.f <- hemlocks %>% filter(location == "MCL") %>% arrange(diameter)
+
+- Class: cmd_question
+  Output: Use the View() function on the hemlocks.f dataset to see the result
+  CorrectAnswer: View(hemlocks.f)
+  AnswerTests: omnitest(correctExpr='View(hemlocks.f)')
+  Hint: Type View(hemlocks.f) in the console
+
+- Class: text
+  Output: What's great about the pipe operator is that you can reduce the amount of typing. Notice that we only typed the data object name first and then did not have to type it again in each function.  
+
+- Class: text
+  Output: Basically, the code we wrote says "Make a new object called hemlocks.f by first taking the object called hemlocks then filter that for the MCL location, and then arrange the result of that by diameter"
+
+- Class: cmd_question
+  Output: Try this on your own.  Take the original dataset (hemlocks) and call the new object hemlocks.sap.  Use the pipe operator similarly to the previous example (you can even use the up arrow key to call that line up again and then edit it) to first filter the data for just "Sapling" trees, and arrange by diameter in descending order (use desc(diameter) within the arrange() function)
+  CorrectAnswer: hemlocks.sap <- hemlocks %>% filter(size.group == "Sapling") %>% arrange(desc(diameter))
+  AnswerTests: omnitest(correctExpr='hemlocks.sap <- hemlocks %>% filter(size.group == "Sapling") %>% arrange(desc(diameter))')
+  Hint: Type this code into the console -- hemlocks.sap <- hemlocks %>% filter(size.group == "Sapling") %>% arrange(desc(diameter))
+
+- Class: cmd_question
+  Output: Use the View() function on the hemlocks.sap dataset to see the result
+  CorrectAnswer: View(hemlocks.sap)
+  AnswerTests: omnitest(correctExpr='View(hemlocks.sap)')
+  Hint: Type View(hemlocks.sap) in the console
+
+- Class: mult_question
+  Output: Looking at the result which location is the sapling with the largest diameter measured from?
+  AnswerChoices: FLE;FLH;SMC;MCL
+  CorrectAnswer: SMC
+  AnswerTests: omnitest(correctVal='SMC')
+  Hint: If you did the filtering and arranging correctly, the row at the top of the new dataset should be the sapling with the largest diameter.  Which location is this tree from?
+
+- Class: text
+  Output: This arranging of saplings has also allowed us to find some mistakes in the data.  Saplings are supposed to be <10 cm in diameter, but we can see that there are 4 trees categorized as saplings that have diameters greater than 10 centimeters. 
+
+- Class: text
+  Output: Great work!  It takes lots of practice to be able to "wrangle" data well.  Don't feel shy about using the resources for this lesson and doing Google searches to help you figure out how to do things.  Until you do things a LOT, you will need to look up the code using examples, the help files, a cheat sheet, etc every single time. Keep practicing and it will get easier as you go.
+ 
+- Class: text
+  Output: In the next lesson (Descriptive Statistics) you will learn how to use group_by() and summarize() to get descriptive statistics such as the mean and standard deviation for groups of interest.

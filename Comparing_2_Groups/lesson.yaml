@@ -1,0 +1,161 @@
+- Class: meta
+  Course: Intro to R for Biology
+  Lesson: Comparing 2 Groups
+  Author: Marney Pratt
+  Type: Standard
+  Organization: Smith College
+  Version: 2.4.4
+
+- Class: text
+  Output: Comparing grouped continuous data is very common in Biology.  For example, comparing the growth rate of caterpillars fed two different diets or the height of trees grown in drought compared to well-watered conditions.  
+
+- Class: text
+  Output: Before completing this lesson, you should know how to do some basic things in RStudio including how to look at and understand the structure of a data frame, be able to filter and summarize data using dplyr, and understand the basic grammar of graphics used in ggplot.  
+
+- Class: text
+  Output: It is also helpful to be familiar with variable types, normal distributions, descriptive statistics (especially mean, standard deviation, median, and interquartile range), what is represented in a histogram and a boxplot, and basic hypothesis testing.
+
+- Class: video
+  Output: If you are unfamiliar with any of these basic statistical terms and concepts, answer Yes to the question below to open a link with some resources. It is helpful to open this link and keep it open in a tab on your browser so you can refer back to it throughout this lesson as needed. 
+  VideoLink: https://docs.google.com/document/d/e/2PACX-1vTRMYrJYm4DtGURF6voY0AwhFFGnIvjYleoC5qgH5uVzRmCNXO9EJuKLK5ihvH3rMvWtnuPZ_7qU13i/pub
+
+- Class: text
+  Output: We will start this lesson by conducting a two-sample t-test (also called an independent samples t-test or Student's t-test).  This test is appropriate to use when the dependent variable of interest is a continuous numerical variable and the independent variable is a binary categorical variable (which means there are two groups).  
+
+- Class: text
+  Output: Using a two-sample t-test assumes that the two groups are totally independent of each other, each group has a normal distribution, and that the variance of the two groups is the same.
+
+- Class: cmd_question
+  Output: The Davis dataset has been loaded for you.  Type ?Davis in the console to pull up the help menu information on this dataset.
+  CorrectAnswer: ?Davis
+  AnswerTests: omnitest(correctExpr='?Davis')
+  Hint: Type ?Davis in the console and press enter
+
+- Class: cmd_question
+  Output: The Davis dataset has one incorrect data point in it.  Remove the point and rename the dataset using the following code -- davis <- filter(Davis, height>60)
+  CorrectAnswer: davis <- filter(Davis, height>60)
+  AnswerTests: omnitest(correctExpr='davis <- filter(Davis, height>60)')
+  Hint: Type davis <- filter(Davis, height>60) in the console and press enter
+
+- Class: script
+  Output: I've opened an R script for you to calculate the descriptive statistics of male and female heights with. Follow the directions in the script, then save the script and type submit() at the prompt when you are ready.
+  AnswerTests: script_vals_identical()
+  Hint: Read the directions in the script carefully. If R is giving you an error, try to understand what it is telling you. Save the script and type submit() at the prompt when you are ready.
+  Script: script1.R
+
+- Class: mult_question
+  Output: Do the mean and the median for each group look similar?
+  AnswerChoices: yes;no
+  CorrectAnswer: yes
+  AnswerTests: omnitest(correctVal='yes')
+  Hint: Look at the descriptive statistics results (scroll up through the console if needed) and compare the mean and the median for each group (in this case the groups are men and women).
+
+- Class: text
+  Output: Recall that if the mean and median are the same (or very similar) that this is one piece of evidence that the distribution may be normal.  But it is crucial that we also visualize the data to see if it looks normally distributed.
+
+- Class: script
+  Output: I've opened an R script for you to make a histogram of male and female heights with. You don't need to make any changes in the script, so just type submit() at the prompt when you have looked over the script. 
+  AnswerTests: script_vals_identical()
+  Hint: You don't need to make any changes in the script, so just type submit() at the console prompt and hit enter after you have looked over the script.
+  Script: script2.R
+
+- Class: text
+  Output: Click on the Plots tab in the lower right panel and look at the histogram of male and female heights.
+
+- Class: mult_question
+  Output: Given the information you have so far, do you think it is safe to assume that these two groups have distributions close enough to normal?
+  AnswerChoices: yes;no
+  CorrectAnswer: yes
+  AnswerTests: omnitest(correctVal='yes')
+  Hint: The histograms don't have to look perfectly normal, but do they look fairly close to normal?
+
+- Class: text
+  Output: To use a two-sample t-test, the groups should both have a normal distribution and their variances should be equal (though keep in mind that if the sample is large enough the two sample t-test is often okay to use when the data are not normal).  Scroll up through the console to look at the descriptive statistics you already calculated, do the variances look reasonably similar?  Sometimes it is hard to tell.  You can perform an F-test or Levene's test to compare the variances.
+
+- Class: text
+  Output: All statistical models in R use a similar formula y ~ x.  This indicates that we want to know how y is affected by x.  In this case, we want to know if the variance in the height variable is the same or different based on sex.
+
+- Class: cmd_question
+  Output: Perform an F-test to compare variances using the following code -- var.test(height ~ sex, data = davis)
+  CorrectAnswer: var.test(height ~ sex, data = davis)
+  AnswerTests: omnitest(correctExpr='var.test(height ~ sex, data = davis)')
+  Hint: Type var.test(height ~ sex, data = davis) in the console and press enter
+
+- Class: text
+  Output: Compare the p-value in the F-test output to decide if the variance is different or not.  If p > 0.05, then we cannot say that the variance is different (and thus assuming that the variance is equal is a fairly safe assumption).  If the p-value is < or = to 0.05, then we can say that the variance is significantly different and we should not do a two-sample t-test.
+
+- Class: text
+  Output: Note that the F-test to compare variance is very sensitive to to the assumption that each population has a normal distribution.  If the data are not normally distributed, you can do a Levene's test for homogeneity of variances to compare variances instead (this requires the car package).  Another advantage of Levene's test is that you can compare more than 2 groups.
+
+- Class: cmd_question
+  Output: Perform a Levene's test of homogeneity of variances to compare variances using the following code -- leveneTest(data = davis, height ~ sex, center = mean)
+  CorrectAnswer: leveneTest(data = davis, height ~ sex, center = mean)
+  AnswerTests: omnitest(correctExpr='leveneTest(data = davis, height ~ sex, center = mean)')
+  Hint: Type leveneTest(data = davis, height ~ sex, center = mean) in the console and press enter
+
+- Class: text
+  Output: Like for the F-test, compare the p-value in the Levene's test output to decide if the variance is different or not.  If p > 0.05, then we cannot say that the variance is different (and thus assuming that the variance is equal is a fairly safe assumption).  If the p-value is < or = to 0.05, then we can say that the variance is significantly different and we should not do a two-sample t-test that assumes equal variance.
+
+- Class: mult_question
+  Output: Given the information you have so far, which type of statistical test out of the options given below should we use to compare the heights of males and females in the davis dataset?
+  AnswerChoices: two-sample t-test (if the data are normal and the variance is equal);Welch's t-test (if the data are normal and the variance is unequal); Wilcoxon rank sum test (if the data are not normal)
+  CorrectAnswer: two-sample t-test (if the data are normal and the variance is equal)
+  AnswerTests: omnitest(correctVal='two-sample t-test (if the data are normal and the variance is equal)')
+  Hint: Look again to see if the data look normal or not and look at the results of the F-test and/or Levene's test comparing the variance
+
+- Class: cmd_question
+  Output: Perform a two-sample t-test to compare means using the following code -- t.test(height ~ sex, data = davis, var.equal=TRUE)
+  CorrectAnswer: t.test(height ~ sex, data = davis, var.equal=TRUE)
+  AnswerTests: omnitest(correctExpr='t.test(height ~ sex, data = davis, var.equal=TRUE)')
+  Hint: Type t.test(height ~ sex, data = davis, var.equal=TRUE) in the console and press enter
+
+- Class: text
+  Output: Compare the p-value in the t-test output to decide if the means are different or not.  If p > 0.05, then we cannot say that the means are different (we cannot reject our null hypothesis that there is no difference in the means).  If the p-value is < or = to 0.05, then we can say that the means are significantly different.  When giving the results of a t-test, you should report the t-value, the degrees of freedom (df) and the p-value.  If there is a significant difference, then we should say which group mean is larger and by how much.  
+
+- Class: mult_question
+  Output: Look at the Two Sample t-test results (scroll up through the console if needed).  Which answer below is the best interpretation of the results?
+  AnswerChoices: There was no significant difference in the height of males and females (t=-16, df=197, p < 0.0001); There was a significant difference in the height of males and females (t=-16, df=197, p < 0.0001);Males were significantly taller than females by an average of 13.3 cm (t=-16, df=197, p < 0.0001);It is impossible to tell if there is a significant difference in height of males and females
+  CorrectAnswer: Males were significantly taller than females by an average of 13.3 cm (t=-16, df=197, p < 0.0001)
+  AnswerTests: omnitest(correctVal='Males were significantly taller than females by an average of 13.3 cm (t=-16, df=197, p < 0.0001)')
+  Hint: Look at the p-value for the Two Sample t-test.  If p > 0.05, then we cannot say that the means are different (we cannot reject our null hypothesis that there is no difference in the means).  If the p-value is < or = to 0.05, then we can say that the means are significantly different.  When giving the results of a t-test, you should report the t-value, the degrees of freedom (df) and the p-value and use the past tense.  If there is a significant difference, then we should say which group mean is larger and by how much (look at the means for each group and take the difference between these two values).
+
+- Class: cmd_question
+  Output: Even though the variance is not different between males and females, let's perform a Welch's t-test (which assumes unequal variance) to compare means using the following code -- t.test(height ~ sex, data = davis, var.equal=FALSE)
+  CorrectAnswer: t.test(height ~ sex, data = davis, var.equal=FALSE)
+  AnswerTests: omnitest(correctExpr='t.test(height ~ sex, data = davis, var.equal=FALSE)')
+  Hint: Type t.test(height ~ sex, data = davis, var.equal=FALSE) in the console and press enter
+
+- Class: mult_question
+  Output: While the precise values may differ, does the Welch's t-test give the same overall interpretation (is the answer of the test the same)?
+  AnswerChoices: yes;no
+  CorrectAnswer: yes
+  AnswerTests: omnitest(correctVal='yes')
+  Hint: Look at the p-value for the Two Sample t-test and the Welch's t-test (scroll through the console as needed) - are both p-values < 0.05?
+
+- Class: text
+  Output: In this example, the distribution of each group is close enough to a normal distribution that running a t-test (Two sample or Welch's) is reasonable.  However, you can run a Wilcoxon rank sum test (also called a Mann-Whitney U test) if the distributions are not normal. 
+
+- Class: text
+  Output: The assumptions of a Wilcoxon rank sum test is that the samples are independent and the dependent variable is continuous.  The null hypothesis is that the distributions of both populations are the same (and also have the same median), while the alternative is that the distribution of one group is shifted to the right or left of the other group.
+
+- Class: cmd_question
+  Output: Even though the distributions are fairly close to normal in this example, let's perform Wilcoxon rank sum test using the following code -- wilcox.test(height ~ sex, data=davis, conf.int=TRUE)
+  CorrectAnswer: wilcox.test(height ~ sex, data=davis, conf.int=TRUE)
+  AnswerTests: omnitest(correctExpr='wilcox.test(height ~ sex, data=davis, conf.int=TRUE)')
+  Hint: Type wilcox.test(height ~ sex, data=davis, conf.int=TRUE) in the console and press enter
+
+- Class: text
+  Output: Compare the p-value in the Wilcoxon rank sum test output to decide if the distributions are shifted or not (in other words, the medians are different or not).  If p > 0.05, then we cannot say that the medians are different (we cannot reject our null hypothesis that there is no shift in the distribution and the medians are not different).  If the p-value is < or = to 0.05, then we can say that the medians are significantly different (the distribution of one group is shifted relative to the other group).  When giving the results of a Wilcoxon rank sum test, you should report the W-value and the p-value.  If there is a significant difference, then we should say which group median is larger and by how much.  
+
+- Class: mult_question
+  Output: Does the Wilcoxon rank sum test give a similar result to the t-test? (in other words, do both tests tell us the groups are different or not?)
+  AnswerChoices: yes;no
+  CorrectAnswer: yes
+  AnswerTests: omnitest(correctVal='yes')
+  Hint: Look at the p-value for the t-tests versus the Wilcoxon rank sum test - are all the p-values greater than 0.05 or less than 0.05?
+
+- Class: text
+  Output:  In this example, all the tests we did gave the same answer (that the groups were different from each other), but this is not always the case.  If the variance is not equal or the data are not normally distributed, then it is best to use the correct test (Welch's t-test and Wilcoxon rank sum test respectively).
+
+- Class: text
+  Output: The tests presented in this lesson are considered traditional null hypothesis significance tests (NHST).  NHST is often misused and may not be the best method for analyzing data in many cases.  See the resources for this lesson for links that give a short tutorial of NHST as well as some modern computational methods.

@@ -1,0 +1,281 @@
+- Class: meta
+  Course: Intro to R for Biology
+  Lesson: Graphing with ggplot
+  Author: Marney Pratt
+  Type: Standard
+  Organization: Smith College
+  Version: 2.4.4
+
+- Class: video
+  Output: Answer Yes to the question below if you want to open a link with some resources for this lesson.  It is helpful to open this link and keep it open in a tab on your browser so you can refer to it throughout this lesson as needed. 
+  VideoLink: https://docs.google.com/document/d/e/2PACX-1vTRMYrJYm4DtGURF6voY0AwhFFGnIvjYleoC5qgH5uVzRmCNXO9EJuKLK5ihvH3rMvWtnuPZ_7qU13i/pub
+
+- Class: text
+  Output: In this lesson, we will learn how to make several types of graphs using the ggplot() function in the ggplot2 package.  
+
+- Class: text
+  Output: To complete this lesson successfully, you will need to understand variable types (continuous, categorical, dependent, independent, etc), what a histogram, boxplot, and scatterplot are, and be able to build on the lessons that came before this one in the course.  Use the resources given for this lesson to help you with basic terminology and understanding the different graph types if you haven't learned it before or need a refresher.
+
+- Class: text
+  Output: A data file called hemlock_diam.csv has been imported for you into a data frame called hemlocks (actually, this is a slightly nicer version of a data frame called a "tibble")(see the lesson called "Getting Data into R" if you want to know how to import this file yourself).
+
+- Class: text
+  Output: The data were collected by Smith College Bio 131 students.  They measured the diameter and height for eastern hemlock trees at 4 locations in Western Massachusetts. You can look at the metadata link in the resources for this lesson to learn more about the hemlocks data.
+
+- Class: text
+  Output: The gg in ggplot stands for the "grammar of graphics" which is a type of visualization theory developed by Leland Wilkinson. This theory has a defined set of rules that builds a graph by using layers.  In ggplot2 there are three essential components to making any graph (1) the data, (2) a geometric object (=geom) such as a point, line, or bar, and (3) aesthetics attributes (aes) such as which variables go with which axes, color, shape, fill, size etc. 
+
+- Class: text
+  Output: Let's start with making a graph of the diameter and height of the hemlock trees.  We know the name of our data (hemlocks), and we know the variables of interest (diameter and height).  But how do we know which variable should go on the x- vs y-axis?  How do we know what type of geometric object (geom) to use?
+
+- Class: mult_question
+  Output: Height and diameter are the same kind of variable - what kind of variable are they?
+  AnswerChoices: numerical;categorical
+  CorrectAnswer: numerical
+  AnswerTests: omnitest(correctVal='numerical')
+  Hint: Are height and diameter measured values (=numerical variables) or are they groups or categories (=categorical variables)?
+
+- Class: text
+  Output: Height and diameter are both numerical variables, but more specifically they are continuous variables that can take on any value (within a range - in this case they have to be greater than zero and can't get larger than it is possible for a hemlock to physically get)
+
+- Class: mult_question
+  Output: What kind of graph would we use when we have two continuous variables?
+  AnswerChoices: scatterplot;bar graph;histogram;box plot
+  CorrectAnswer: scatterplot
+  AnswerTests: omnitest(correctVal='scatterplot')
+  Hint: Make sure you look at the resources for this lesson if you don't know what these graph types are and then try again.
+
+- Class: text
+  Output: To make a scatterplot using ggplot(), we use the point geometric object by calling on the geom_point() function.
+
+- Class: text
+  Output: So now we have our data and our geom, but what about aesthetics?  At the very least we need to know which variable should go on the x-axis and which on the y-axis.  
+
+- Class: text
+  Output: For a scatterplot, we often put the independent variable (also called the predictor) on the x-axis and the dependent variable (also called the response variable) on the y-axis.  The dependent variable value depends on the independent variable (or you could say the response responds to the predictor).  Sometimes, you just want to see if two variables are correlated and it doesn't matter which one goes on which axis, and other times it matters a lot.
+
+- Class: text
+  Output: In this case it doesn't really matter too much, but since we chose trees partly based on their diameter let's put the diameter on the x-axis and the height on the y-axis.
+
+- Class: text
+  Output: As you saw in previous lessons, there are a lot of missing values for the height variable.  Let's filter out the missing height values before we begin graphing.
+
+- Class: script
+  Output: I've opened an R script for you to filter out the NA's with. Follow the directions in the script, then save the script and type submit() at the prompt when you are ready.
+  AnswerTests: script_vals_identical()
+  Hint: Read the directions in the script carefully. If R is giving you an error, try to understand what it is telling you. Save the script and type submit() at the prompt when you are ready.
+  Script: script1.R
+
+- Class: text
+  Output: You should now have a new dataset called hemlocks.h that no longer contains any missing values for height.
+
+- Class: script
+  Output: I've opened a new R script for you to learn how to use ggplot to make a simple scatterplot. Follow the directions in the script, then save the script and type submit() at the prompt when you are ready.
+  AnswerTests: script_vals_identical()
+  Hint: Read the directions in the script carefully. If R is giving you an error, try to understand what it is telling you. Save the script and type submit() at the prompt when you are ready.
+  Script: script2.R
+
+- Class: text
+  Output: When you print graphs to the console, they will show up in the Plots panel.  Click on the Plots tab in the lower right panel if it is not already open to see your graph.
+
+- Class: text
+  Output: This graph is fine for a quick look, but it could look nicer.
+
+- Class: script
+  Output: I've opened a new R script to show you how to add nice axis labels and get rid of the gray background. You don't need to change anything in the code, just type submit() at the prompt after you have had a chance to look over the code and read the comments.
+  AnswerTests: script_vals_identical()
+  Hint: Don't change anything in the script.  Just type submit() in the console.
+  Script: script3.R
+
+- Class: text
+  Output: This graph is looking better. But what if we want to compare the relationship between height and diameter at the 4 different locations?
+
+- Class: script
+  Output: Let's add a line of best fit (using linear regression) for each location. Read the comments and make the necessary changes in the code of the script that opened and then type submit() at the prompt after you have had a chance to look over the code and read the comments.
+  AnswerTests: script_vals_identical()
+  Hint: Read the directions in the script carefully. If R is giving you an error, try to understand what it is telling you. Save the script and type submit() at the prompt when you are ready.
+  Script: script4.R
+
+- Class: text
+  Output: This is looking pretty good.  But we can do better.  The smaller trees are all rather squished together, and the larger trees are nicely spread out.  It looks like doing a log transformation might spread the data out better.  
+ 
+- Class: script
+  Output: Let's change the height and diameter each to a log scale. Read the comments and make the necessary changes in the code of the script that opened and then type submit() at the prompt after you have had a chance to look over the code and read the comments.
+  AnswerTests: script_vals_identical()
+  Hint: Read the directions in the script carefully. If R is giving you an error, try to understand what it is telling you. Save the script and type submit() at the prompt when you are ready.
+  Script: script5.R
+
+- Class: text
+  Output: There - doesn't that look better?  It is easier to see everything when the values are spread more evenly.  
+
+- Class: text
+  Output: Note that we added the ggsave() function to that last graph to save our graph in the working directory. Once you have the graph as an image file, you can use that file in a paper, presentation, poster, notebook, or whatever you like.  You can use the help file for ggsave to learn more about this function to save a graph in a different file type or size.  
+
+- Class: text
+  Output: To access the file, click on the Files tab in the lower right panel.  If you’re working directory isn't open, then browse to the working directory folder. Note that a file called heightVdiameter.jpg is now there.  You can access this file directly on your computer if you are using the desktop version of RStudio. If you are on a server or RStudio Cloud you can click on the gear that says "More" in the Files tab and select "Export" to export the file to your computer. 
+
+- Class: text
+  Output: Another way you can get a copy of a graph you make is that you can click on the "Export" option in the Plots panel to save the graph as an image, a pdf, or copy to the clipboard so you can paste it elsewhere.
+
+- Class: text
+  Output: The next type of graph we are going to practice making is a histogram.  Histograms are not often used to present data formally in a paper, poster, or presentation, but they are very useful to exploring the distribution structure of your data.  Use the links in the resources for this course if you are not familiar with what a histogram is.
+
+- Class: script
+  Output: Let's make a histogram of diameter of all the hemlock trees. A new script has been opened for you.  You do not need to make any changes. Type submit() at the prompt after you have had a chance to look over the code and read the comments.
+  AnswerTests: script_vals_identical()
+  Hint: Read the directions in the script carefully. If R is giving you an error, try to understand what it is telling you. Save the script and type submit() at the prompt when you are ready.
+  Script: script6.R
+
+- Class: text
+  Output: (Make sure to open the Plots tab again if it isn't open) Look at the histogram of the diameters of all the trees.  This distribution is right skewed, which means that there is a longer "tail" on the right and the peak is shifted over to the left.
+
+- Class: text
+  Output: Something to note about histograms is that you can change the "binwidth" to make the bins larger or smaller.  Each bin is a range of diameters and the bar in that bin is the number of trees that have diameters in that range.  We can increase or decrease the size of the bins - which will mean the range of diameters for each bin is increased or decreased.
+
+- Class: script
+  Output: The same script as the previous one has been opened.  Modify the code as directed, save the script, and then type submit() at the prompt when you are done.
+  AnswerTests: script_vals_identical()
+  Hint: Read the directions in the script carefully. If R is giving you an error, try to understand what it is telling you. Save the script and type submit() at the prompt when you are ready.
+  Script: script6b.R
+
+- Class: mult_question
+  Output: What happened to the histogram when we changed the binwidth from 0.8 to 5? (Note that you can scroll through the plots tab using the left and right arrow buttons to look at previous plots you have made)
+  AnswerChoices: the bars got fatter;the bars got skinnier;the bars stayed the same
+  CorrectAnswer: the bars got fatter
+  AnswerTests: omnitest(correctVal='the bars got fatter')
+  Hint: Look at the histogram with binwidth set at 5 compared to the one with it set to 0.8 - do they look different?  Which histogram has fatter bars?
+
+- Class: text
+  Output: It is always good to play around with the binwidth a little until you find what works best for a particular variable.  You want enough bars to truly see the shape of the data distribution without having too many super skinny bars.
+
+- Class: text
+  Output: Like we did in the "Descriptive Statistics" lesson, let's split the diameter data into size classes using the facet() function.
+
+- Class: script
+  Output: A new script has been opened for you that shows the code for how to use facet() to split the data by size class.  You do not need to make any changes. Type submit() at the prompt after you have had a chance to look over the code and read the comments.
+  AnswerTests: script_vals_identical()
+  Hint: Read the directions in the script carefully. If R is giving you an error, try to understand what it is telling you. Save the script and type submit() at the prompt when you are ready.
+  Script: script7.R
+
+- Class: text
+  Output: Look at the resulting set of histograms.  Note that the distribution is different for the three different size classes.
+
+- Class: script
+  Output: A new script has been opened for you that shows the previous code.  Modify the code as directed, then save the script and type submit() at the prompt when you are ready.
+  AnswerTests: script_vals_identical()
+  Hint: Read the directions in the script carefully. If R is giving you an error, try to understand what it is telling you. Save the script and type submit() at the prompt when you are ready.
+  Script: script8.R
+
+- Class: text
+  Output: The hemlocks in Western Massachusetts have two invasive insects infesting them - the elongate hemlock scale (EHS) and hemlock woolly adelgid (HWA).  Both means that the tree has both insects infesting it, EHS means just EHS was on the tree, and HWA means just HWA was on the tree.  All of the trees had at least one of the insects present (there are no trees in the "Neither" category).
+
+- Class: text
+  Output: The size distribution looks fairly similar between the trees that had both insects present and just EHS.  However, there are very few trees with just HWA present. The distribution is skewed with more smaller trees than you would expect for a normal distribution.  This could indicate that the trees were not truly sampled randomly, or that the forest itself has more small trees than you would expect compared to a normal distribution.  More information on how the trees were sampled or more testing would be needed to see if the distribution of hemlock diameters in these forests is truly not normal.
+
+- Class: cmd_question
+  Output: Use the ggsave() function to save the last graph you made and call it "histogram.jpg". Type the code below.
+  CorrectAnswer: ggsave("histogram.jpg")
+  AnswerTests: omnitest(correctExpr='ggsave("histogram.jpg")')
+  Hint: Type ggsave("histogram.jpg") in the console and then hit Enter
+
+- Class: text
+  Output: Another type of graph we are going to practice making in this lesson is a box plot.  Use the links in the resources for this course if you are not familiar with what a box plot is  or need a refresher.
+
+- Class: script
+  Output: Similar to the histograms we just made, let's make a box plot of hemlock diameter split by infestation. A new script has been opened for you.  You do not need to make any changes. Type submit() at the prompt after you have had a chance to look over the code and read the comments.
+  AnswerTests: script_vals_identical()
+  Hint: Read the directions in the script carefully. If R is giving you an error, try to understand what it is telling you. Save the script and type submit() at the prompt when you are ready.
+  Script: script9.R
+
+- Class: cmd_question
+  Output: To understand what geom_boxplot() is showing, call up the help page on geom_boxplot(). Type the code below.
+  CorrectAnswer: ?geom_boxplot
+  AnswerTests: omnitest(correctExpr='?geom_boxplot')
+  Hint: Type ?geom_boxplot in the console 
+
+- Class: text
+  Output: On the geom_boxplot help page, read the description and then scroll down to where it says summary statistics and read that section.
+
+- Class: mult_question
+  Output: What do you think the horizontal bar within the box represents?
+  AnswerChoices: median;mean;mode;1st quartile
+  CorrectAnswer: median
+  AnswerTests: omnitest(correctVal='median')
+  Hint: Look at the Description on the geom_boxplot() help page. What is the value of central tendency displayed in a box plot?
+
+- Class: text
+  Output: Like a histogram, a box plot can help us determine whether a distribution is normal.  If the median is in the center of the box, the whiskers are symmetrical, and there are no major outliers then this may be a clue that the distribution is normal or close to normal.  Recall that the mean and the median are the same when the distribution is normal.  Thus, it can be useful to add the mean to a box plot so we can visually see whether the mean and median are similar or not.
+
+- Class: script
+  Output: Let's add the mean to our box plots. A new script has been opened for you.  You do not need to make any changes. Type submit() at the prompt after you have had a chance to look over the code and read the comments.
+  AnswerTests: script_vals_identical()
+  Hint: Read the directions in the script carefully. If R is giving you an error, try to understand what it is telling you. Save the script and type submit() at the prompt when you are ready.
+  Script: script10.R
+
+- Class: text
+  Output: Notice in the plots panel that the box plots look the same except an "x" has been added to each box which indicates the mean.
+
+- Class: mult_question
+  Output: Do the data look normally distributed?
+  AnswerChoices: no;yes
+  CorrectAnswer: no
+  AnswerTests: omnitest(correctVal='no')
+  Hint: They are normal if the boxes are nicely symmetrical with the mean and median close together and no major outliers.  They are not normal if the boxes are asymmetrical, the mean and the median are not close together, and there are outliers.
+
+- Class: text
+  Output: One disadvantage of box plots is that they can hide your data.  You can't tell the sample size or more details about the distribution from just the box plots. However, we can add the data points to the box plots if desired.
+
+- Class: script
+  Output: Let's add the mean to our box plots. A new script has been opened for you.  You do not need to make any changes. Type submit() at the prompt after you have had a chance to look over the code and read the comments.
+  AnswerTests: script_vals_identical()
+  Hint: Read the directions in the script carefully. If R is giving you an error, try to understand what it is telling you. Save the script and type submit() at the prompt when you are ready.
+  Script: script11.R
+
+- Class: text
+  Output: Whether you include the mean or points on your box plots depends on whether they are useful for the particular dataset.  If you have really large sample sizes, including the points can be overwhelming and districting.  There are other types of plots (such as a violin plot) that may be better for very large sample sizes to show the distribution of the data.  We will not go over violin plots in this course.
+
+- Class: cmd_question
+  Output: Before moving on, let's use the ggsave() function to save the last graph you made and call it "box.jpg". Type the code below.
+  CorrectAnswer: ggsave("box.jpg")
+  AnswerTests: omnitest(correctExpr='ggsave("box.jpg")')
+  Hint: Type ggsave("box.jpg") in the console and then hit Enter
+
+- Class: text
+  Output: Sometimes your sample size is too small to use a histogram or box plot.  Ideally, you want sample sizes of 30 or larger in each group for histograms and box plots.  What do we do when we have smaller sample sizes?
+
+- Class: text
+  Output: When you have small sample sizes (<30 in each group is a good rule of thumb - but note that there is no hard and fast rule), it is usually best to show all your data and add a measure of central tendency (the mean or median).
+
+- Class: mult_question
+  Output: We have already found that these data are not normally distributed.  What measure of central tendency would be best to use?
+  AnswerChoices: median;mean;mode
+  CorrectAnswer: median
+  AnswerTests: omnitest(correctVal='median')
+  Hint: A mean is usually used when data are normally distributed.  What is most often used as a measure of central tendency when the data are not normal?
+
+- Class: script
+  Output: Let's take away the box plot and just leave the points and the measure of central tendency (in this case the median since the data are not normal).  A new script has been opened for you.  You do not need to make any changes. Type submit() at the prompt after you have had a chance to look over the code and read the comments.
+  AnswerTests: script_vals_identical()
+  Hint: Read the directions in the script carefully. If R is giving you an error, try to understand what it is telling you. Save the script and type submit() at the prompt when you are ready.
+  Script: script12.R
+
+- Class: text
+  Output: Notice that this graph is pretty similar to the last one except the boxes and mean are gone and all that is left are the points and the median.  If the data were normally distributed, you would use the mean for the bar rather than the median.  What do we call this type of graph?  It can be called a "univariate scatterplot", "dot plot", or "strip chart".  We will use "dot plot" in this course.
+
+- Class: text
+  Output: Often when we summarize data, we use a measure of central tendency (usually the mean or the median) and a measure of dispersion (standard deviation, interquartile range, range, etc).  Why do we only show the median in this graph?  Since we are showing all of the points, how spread out the points are is already clearly apparent. 
+
+- Class: text
+  Output: If you want to show how confident you are in your estimation of a mean, you can show 95% confidence intervals around the mean.  Keep in mind that a confidence interval is a type of inferential statistics and is not simply descriptive.
+
+- Class: cmd_question
+  Output: Before finishing this lesson, let's use the ggsave() function to save the last graph you made and call it "dot.jpg". Type the code below.
+  CorrectAnswer: ggsave("dot.jpg")
+  AnswerTests: omnitest(correctExpr='ggsave("dot.jpg")')
+  Hint: Type ggsave("dot.jpg") in the console and then hit Enter
+
+- Class: text
+  Output: There are MANY more types of graphs you can make with ggplot.  Check out the R Graph Gallery (link in the resources) for the R code to make a huge number of different types of graphs.
+
+- Class: text
+  Output: Take the code for the graphs (see the resources for this lesson for example code for each graph type) and play with them on your own.  What happens when you remove things?  How can you change the look using color, shape, size, etc?  Use the ggplot2 cheat sheet and other resources for this lesson to learn how to make other changes.  Have fun and experiment!

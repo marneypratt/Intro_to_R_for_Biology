@@ -1,0 +1,193 @@
+- Class: meta
+  Course: Intro to R for Biology
+  Lesson: Descriptive Statistics
+  Author: Marney Pratt
+  Type: Standard
+  Organization: Smith College
+  Version: 2.4.4
+
+
+- Class: video
+  Output: Answer Yes to the question below if you want to open a link with some resources for this lesson.  It is helpful to open this link and keep it open in a tab on your browser so you can refer to it throughout this lesson as needed. 
+  VideoLink: https://docs.google.com/document/d/e/2PACX-1vTRMYrJYm4DtGURF6voY0AwhFFGnIvjYleoC5qgH5uVzRmCNXO9EJuKLK5ihvH3rMvWtnuPZ_7qU13i/pub
+
+- Class: text
+  Output: In this lesson, we will learn some basic ways to summarize data with descriptive statistics using the summarize() and group_by() functions from the dplyr package.
+
+- Class: text
+  Output: If you have never learned about descriptive statistics or need a refresher, please see the resources for this lesson
+
+- Class: text
+  Output: A data file called hemlock_diam.csv has been imported for you into a data frame called hemlocks (actually, this is a slightly nicer version of a data frame called a "tibble")(see the lesson called "Getting Data into R" if you want to know how to import this file yourself).
+
+- Class: text
+  Output: The data were collected by Smith College Bio 131 students.  They measured the diameter and height for eastern hemlock trees at 4 locations in Western Massachusetts. You can look at the metadata link in the resources for this lesson to learn more about the hemlocks data.
+
+- Class: text
+  Output: In this lesson, we are focusing on descriptive statistics.  Let's start with measures of central tendency.  Basically, we want to know what a "typical" individual is within a sample.  The two measures of central tendency we will focus on are mean and median.
+
+- Class: cmd_question
+  Output: Use the summary() function on the hemlocks data. Type the code below.
+  CorrectAnswer: summary(hemlocks)
+  AnswerTests: omnitest(correctExpr='summary(hemlocks)')
+  Hint: Type summary(hemlocks) in the console and press Enter
+
+- Class: text
+  Output: You can see in the summary() output that the median and the mean are given for each column with a numeric value or date (and remember, you can scroll up through the console or expand the console panel if you need to). 
+
+- Class: text
+  Output: When summarizing a sample or population with descriptive statistics, we usually choose which measure of central tendency is more appropriate to use based on the "shape" or distribution of the data. Choose the mean when the data are normally distributed (or fairly close) and choose the median when the data are not normal.
+
+- Class: text
+  Output: A normal distribution is when data show a "bell-shaped" curve where most individuals are centered symmetrically around the mean (see resources for this lesson for more about normal distributions).  For a true normal distribution, the mean and median are identical.
+
+- Class: mult_question
+  Output: Looking at the mean and the median for diameter for all the hemlock trees, would you say that the values are identical or very close? (scroll up through the console if you need to)
+  AnswerChoices: Yes - the mean and median values are identical or very close; No - the mean and median are different
+  CorrectAnswer: No - the mean and median are different
+  AnswerTests: omnitest(correctVal='No - the mean and median are different')
+  Hint: Using the results from summary(hemlocks), compare the mean and median for diameter. (scroll up through the console if you need to)
+
+- Class: text
+  Output: If the mean and the median are the same, that is one piece of evidence that the data may be normally distributed.  But how do we know what counts as different or the same when comparing the mean and the median? That is not always an easy question.  With a small sample size (especially less than ~20), it is not always possible to tell if data are normally distributed or not.
+
+- Class: text
+  Output: Another piece of evidence we can use to decide if the data are normal or not is to use some form of visualization.  A common way to visualize distributions is a histogram.  See the resources for this lesson if you want to learn about histograms
+
+- Class: figure
+  Output: Look at the Plots window to see a histogram of the diameters of all the hemlock trees. (select the Plots tab in the lower right panel)
+  Figure: diam.histogram.R
+  FigureType: new
+
+- Class: mult_question
+  Output: Looking at the histogram of diameter for all the hemlock trees, would you say this shows a normal distribution (or it is fairly close to normal)? 
+  AnswerChoices: Yes - the distribution looks fairly close to normal; No - the distribution does not look normal
+  CorrectAnswer: No - the distribution does not look normal
+  AnswerTests: omnitest(correctVal='No - the distribution does not look normal')
+  Hint: If a histogram shows a "bell-shaped" curve (or something fairly close), we can say it looks close to normal.  If the shape of the histogram is not "bell-shaped", then it does not look normal.
+
+- Class: mult_question
+  Output: What is the best measure of central tendency to describe the diameter of all the hemlock trees?
+  AnswerChoices: Mean;Median
+  CorrectAnswer: Median
+  AnswerTests: omnitest(correctVal='Median')
+  Hint: If a histogram shows a "bell-shaped" curve (or something fairly close), we can say it looks close to normal and we would use the mean as the measure of central tendency.  If the shape of the histogram is not "bell-shaped", then it does not look normal and we would use the median as the measure of central tendency.
+
+- Class: text
+  Output: To summarize a sample or population, we need more than just the measure of central tendency.  We also need a measure of dispersion.  Dispersion is how spread out the data are.
+
+- Class: text
+  Output: There are several possible measures of dispersion you could use to describe the spread of the data.  When the data are normally distributed, we use the standard deviation.  When the data are not normal, a common measure of dispersion is the interquartile range (which gives the middle 50% of the data).  Look at the resources for this lesson if you want to learn more about measures of dispersion.
+
+- Class: text
+  Output: Let's use the summarize() function from the dplyr package to calculate some descriptive statistics for the diameter of all the hemlock trees.  (note that you can spell the function summarize() or summarise() but we will use summarize() in this lesson.)
+
+- Class: cmd_question
+  Output: First we need to load the dplyr package.  Type the code needed to load the dplyr package below
+  CorrectAnswer: library(dplyr)
+  AnswerTests: omnitest(correctExpr='library(dplyr)')
+  Hint: Type library(dplyr) in the console and press Enter
+
+- Class: text
+  Output: So far we have been working mostly in the RStudio console.  However, you may have noticed that it can get tedious to have to type things over and over in the console.  When you have lots of lines of code, it can be helpful to save that code in a file.
+
+- Class: text
+  Output: There is a special type of file that R uses called an R script (it will have the file type of .R).  You can save a bunch of code in an R script and then "run" that code, which sends all the code in the script (or that you highlight) to the console.
+
+- Class: script
+  Output: I've opened an R script for you to see some code for how to use summarize(). Follow the directions in the script, then save the script and type submit() at the prompt when you are ready.
+  AnswerTests: script_vals_identical()
+  Hint: Read the directions in the script carefully. If R is giving you an error, try to understand what it is telling you. Save the script and type submit() at the prompt when you are ready.
+  Script: script1.R
+
+- Class: mult_question
+  Output: If we want to describe the diameter variable from this dataset what values would we give for the measure of central tendency and dispersion respectively?
+  AnswerChoices: 9.47 and 10.9;4.48 and 13.3;9.47 and 13.3; 4.48 and 10.9
+  CorrectAnswer: 4.48 and 13.3
+  AnswerTests: omnitest(correctVal='4.48 and 13.3')
+  Hint: If the data are not normally distributed, we would give the median and the IQR
+
+- Class: mult_question
+  Output: Another important value to report is the sample size.  How many trees had their diameters measured in total?
+  AnswerChoices: 298;7;92;126;80
+  CorrectAnswer: 298
+  AnswerTests: omnitest(correctVal='298')
+  Hint: We counted the number of trees in the summarize() function and the result is denoted by the column N
+
+- Class: script
+  Output: I've opened an R script for you with the same code as the previous one. Follow the directions in the script, then save the script and type submit() at the prompt when you are ready. 
+  AnswerTests: script_vals_identical()
+  Hint: Read the directions in the script carefully. If R is giving you an error, try to understand what it is telling you. Save the script and type submit() at the prompt when you are ready.
+  Script: script2.R
+
+- Class: text
+  Output: Why is R giving you an error?  The error message indicates that it has something to do with missing values.
+
+- Class: cmd_question
+  Output: Use the summary() function again on the hemlocks data by typing the code below.
+  CorrectAnswer: summary(hemlocks)
+  AnswerTests: omnitest(correctExpr='summary(hemlocks)')
+  Hint: Type summary(hemlocks) in the console and press Enter
+
+- Class: exact_question
+  Output: Aha - there are missing values for the height variable.  How many missing values are shown for height?
+  CorrectAnswer: 173
+  AnswerTests: omnitest(correctVal='173')
+  Hint: Look at the output from summary(hemlocks) and type in the number of NA's for height
+
+- Class: text
+  Output: We have a few options to deal with this.  We can filter out the missing values for height (see the "Working with Data" lesson for practice doing that). Or we can tell summarize() to ignore the missing values.  We will do the latter.
+
+- Class: script
+  Output: I've opened an R script for you with the code for removing missing data added for you. Look over the script so you understand it and then type submit() at the prompt when you are ready. 
+  AnswerTests: script_vals_identical()
+  Hint: Read the directions in the script carefully. If R is giving you an error, try to understand what it is telling you. Save the script and type submit() at the prompt when you are ready.
+  Script: script3.R
+
+- Class: text
+  Output: Great!  Since we told summarize() to remove the missing values, it was able do the calculations we wanted now.  But do we report the mean and SD or the median and IQR? We can compare the mean and the median for one clue.  They look pretty different.  
+
+- Class: figure
+  Output: Look at the Plots window in the lower right panel to see a histogram of the heights of all the hemlock trees. (select the Plots tab)
+  Figure: height.histogram.R
+  FigureType: new
+
+- Class: mult_question
+  Output: Looking at the histogram of heights for all the hemlock trees, would you say this shows a normal distribution (or it is fairly close to normal)? 
+  AnswerChoices: Yes - the distribution looks fairly close to normal; No - the distribution does not look normal
+  CorrectAnswer: No - the distribution does not look normal
+  AnswerTests: omnitest(correctVal='No - the distribution does not look normal')
+  Hint: If a histogram shows a "bell-shaped" curve (or something fairly close), we can say it looks close to normal.  If the shape of the histogram is not "bell-shaped", then it does not look normal.
+
+- Class: mult_question
+  Output: Given the information you have from looking at the descriptive statistics and the histogram, which values should we report to summarize the height variable? 
+  AnswerChoices: Mean and Standard Deviation;Median and IQR; Mean and IQR; Median and Standard Deviation
+  CorrectAnswer: Median and IQR
+  AnswerTests: omnitest(correctVal='Median and IQR')
+  Hint: If the data are not normally distributed, we would give the median and the IQR.  If the data are normally distributed (or close enough), we would give the mean and the SD.
+
+- Class: text
+  Output: From the results we have seen so far, it looks like we sampled more small trees than larger trees.  Let's look at the descriptive statistics for the three size classes of trees (mature, sapling, seedling).  We can do this using the group_by() function from the dplyr package.
+
+- Class: script
+  Output: I've opened an R script for you with the same code as the previous first script. Follow the directions in the script, then save the script and type submit() at the prompt when you are ready. 
+  AnswerTests: script_vals_identical()
+  Hint: Read the directions in the script carefully. If R is giving you an error, try to understand what it is telling you. Make sure you have a pipe operator (%>%) between each function, make sure you have commas and parentheses where they are needed. Save the script and type submit() at the prompt when you are ready.
+  Script: script4.R
+
+- Class: text
+  Output: Do you see what adding group_by() does?  It allows us to compute the descriptive statistics for each group of interest (in this case size class of hemlock trees).
+
+- Class: figure
+  Output: Look at the Plots window in the lower right panel (select the Plots tab) to see a histogram of the diameters of the hemlock trees split by size class.
+  Figure: diam.histogram.f.R
+  FigureType: new
+
+- Class: text
+  Output: Look at the results of the descriptive statistics and the histograms that break things up into the seedling, sapling, and mature tree size classes.  It looks like the mature trees and seedlings are a little closer to a normal distribution, while saplings are still a bit skewed with more smaller trees than you would expect for a normal distribution.  This could indicate that the trees were not truly sampled randomly, or that the forest itself has more small trees than you would expect compared to a normal distribution (especially in the sapling size class).  More testing would be needed to see if these data truly are not normal.
+
+- Class: text
+  Output: This lesson and overall course do not go into depth on how to determine if data are normally distributed or how to transform non-normal data.  An example of a more in-depth resource is Chapter 10 - The normal distribution from Whitlock and Schluter 2020 (see course resources).
+
+- Class: text
+  Output: The next lesson will help you learn how to make histograms and other graphs using the ggplot() function in the ggplot2 package.

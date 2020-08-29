@@ -1,0 +1,201 @@
+- Class: meta
+  Course: Intro to R for Biology
+  Lesson: Basics
+  Author: Marney Pratt
+  Type: Standard
+  Organization: Smith College
+  Version: 2.4.4
+
+- Class: text
+  Output: Before we get started, please note that this lesson borrows some questions from the "Basic Building Blocks" lesson from the "R Programming" course by Nick Carchedi from JHU Biostat
+
+- Class: text
+  Output: In this lesson, we will learn some basics of programming and using R in RStudio
+
+- Class: video
+  Output: Answer Yes to the question below if you want to open a link with some resources for this lesson.  It is helpful to open this link and keep it open in a tab on your browser so you can refer to it throughout this lesson as needed. 
+  VideoLink: https://docs.google.com/document/d/e/2PACX-1vTRMYrJYm4DtGURF6voY0AwhFFGnIvjYleoC5qgH5uVzRmCNXO9EJuKLK5ihvH3rMvWtnuPZ_7qU13i/pub
+
+- Class: cmd_question
+  Output: Let's start with something very simple. R can be used as an interactive calculator. Type
+    23 + 54 and press Enter.
+  CorrectAnswer: 23 + 54
+  AnswerTests: omnitest(correctExpr='23 + 54')
+  Hint: Type 23 + 54 and press Enter.
+
+- Class: text
+  Output: R prints the result of 77 by default. However, R is a programming language and often the reason we use a programming language as opposed to a calculator is to automate some process or avoid unnecessary repetition.
+
+- Class: text
+  Output: In this case, we may want to use our result from above in a second calculation.
+    Instead of retyping 23 + 54 every time we need it, we can just create a new variable
+    that stores the result.
+
+- Class: text
+  Output: 'The way you assign a value to a variable in R is by using the assignment
+    operator, which is just a ''less than'' symbol followed by a ''minus'' sign. It
+    looks like this: <-'
+
+- Class: text
+  Output: Think of the assignment operator as an arrow. You are assigning the value
+    on the right side of the arrow to the variable name on the left side of the arrow.
+
+- Class: cmd_question
+  Output: To assign the result of 23 + 54 to a new variable called x, you type x <-
+    23 + 54. This can be read as 'x gets 23 plus 54'. Give it a try now.
+  CorrectAnswer: x <- 23 + 54
+  AnswerTests: any_of_exprs('x <- 23 + 54', 'x <- 54 + 23')
+  Hint: Type x <- 23 + 54. It's important to include a single space on each side of
+    the assignment operator, but do NOT put a space between the `<` and the `-` that
+    form the arrow.
+
+- Class: text
+  Output: You'll notice that R did not print the result of 77 this time. When you use the assignment operator, R assumes that you don't want to see the result immediately, but rather that you intend to use the result for something else later.
+
+- Class: text
+  Output: Look in the upper right panel called the "Global Environment".  You should see a value listed telling you that the variable "x" is stored in memory and that the value of x is 77.
+
+- Class: cmd_question
+  Output: To view the contents of the variable x in your console, just type x and press Enter. Try
+    it now.
+  CorrectAnswer: x
+  AnswerTests: omnitest(correctExpr='x')
+  Hint: Type x and press Enter. This will automatically print the value of x.
+
+- Class: cmd_question
+  Output: Now, store the result of x - 12 in a new variable called y.
+  CorrectAnswer: y <- x - 12
+  AnswerTests: omnitest(correctExpr='y <- x - 12')
+  Hint: Type y <- x - 12 and press Enter. Whether you use x - 12 or x-12 is personal
+    preference, but it's good habit to include a space on either side of the assignment
+    operator.
+
+- Class: cmd_question
+  Output: What is the value of y? Type y to find out.
+  CorrectAnswer: 'y'
+  AnswerTests: omnitest(correctExpr='y')
+  Hint: Type y and press Enter.
+
+- Class: text
+  Output: You can also see the value of y in the "Global Environment".
+
+- Class: text
+  Output: The variables you have stored in R are also called "objects".  There are lots of types of objects in R. There is a link in the resources for this lesson if you want to learn more about objects.
+
+- Class: text
+  Output: For now, just think about an object as a way to store things (values, lists, functions, etc) in R's memory.
+
+- Class: text
+  Output: R can do a LOT more than simple calculations.  One power of R is that you can also create functions that summarizes a bunch of lines of code together.
+
+- Class: text
+  Output: An example is the sqrt() function that takes the square root of whatever is inside the parentheses.
+
+- Class: cmd_question
+  Output: What is the square root of 625? Type sqrt(625) to find out.
+  CorrectAnswer: sqrt(625)
+  AnswerTests: omnitest(correctExpr='sqrt(625)')
+  Hint: Type sqrt(625) and press Enter.
+
+- Class: text
+  Output: sqrt() is a fairly simple function.  But let's say you are not sure how to use the function.  You can open a help document in the lower right panel that will describe how to use the function.
+
+- Class: cmd_question
+  Output: Type ?sqrt to open the help document.
+  CorrectAnswer: ?sqrt
+  AnswerTests: omnitest(correctExpr='?sqrt')
+  Hint: Type ?sqrt and press Enter. Make sure to NOT include the parentheses after the function when calling up the help document.
+
+- Class: text
+  Output: Note that the help document shows the name of the page and the package it is from at the top left corner of the help page (the package name is in the {} brackets).
+
+- Class: text
+  Output: The sqrt() function is from a help page called Miscellaneous Mathematical Functions and is abbreviated as MathFun in the top left corner.
+
+- Class: text
+  Output: The sqrt() function is part of base R so the package it is from is shown as {base}
+
+
+- Class: text
+  Output: Sometimes the help document doesn't tell you what you want to know.  Don't feel shy about searching Google for more helpful answers and examples.  All of us (even the most experienced programmers) turn to Google and other resources for help.
+
+- Class: text
+  Output: We often want to use R to analyze a larger dataset that has many rows and columns.  We are going to skip over the basics of vectors, lists, and matrices for now (but look at the links in the resources if you are interested).
+ 
+- Class: text
+  Output: In this course, we are going to focus on data frames.  A data frame is a "spreadsheet"-type of dataset where each row is an observation and each column is a different variable.
+
+- Class: cmd_question
+  Output: Let's use the function View() to look at a data frame called iris.  Type View(iris) into the console then press Enter.
+  CorrectAnswer: View(iris)
+  AnswerTests: omnitest(correctExpr='View(iris)')
+  Hint: Type View(iris) then press Enter
+
+- Class: text
+  Output: The View() function opens the iris data frame into a spreadsheet-like form so you can see the whole thing.
+
+- Class: text
+  Output: The reason you did not have to import the iris data frame into R is that this dataset is already loaded into base R.
+
+- Class: cmd_question
+  Output: Call up the help file for the View() function.  Type ?View into the console then press Enter. (remember not to include parentheses after the function name when you call up the help document)
+  CorrectAnswer: ?View
+  AnswerTests: omnitest(correctExpr='?View')
+  Hint: Type ?View then press Enter
+
+- Class: mult_question
+  Output: What package is the View() function part of?
+  AnswerChoices: utils;base;dplyr;graphics
+  CorrectAnswer: utils
+  AnswerTests: omnitest(correctVal='utils')
+  Hint: Look at the top left corner of the View() help page.  Type what is shown between the {} brackets
+
+- Class: text
+  Output: Notice on the help page that the View() function has two things listed under Arguments (sqrt() only had one).
+
+- Class: text
+  Output: Arguments are the things that go within the parentheses for a function.  In this case, there are two arguments in the View() function - x and title. Each of these arguments is explained under the Arguments section.
+
+- Class: text
+  Output: Generally, for the View() function we just put in the argument x which is an R object that can be viewed as a data frame.
+
+- Class: text
+  Output: This is why we can type View(iris) to view the iris data (the object we are viewing in this case is iris)
+
+- Class: text
+  Output: Because the iris data frame is included in base R, it also has a help page that describes the dataset.
+
+- Class: cmd_question
+  Output: To open the help page that describes the iris data, type ?iris and hit Enter
+  CorrectAnswer: ?iris
+  AnswerTests: omnitest(correctExpr='?iris')
+  Hint: Type ?iris and then press Enter in the console
+
+- Class: mult_question
+  Output: Using the information in the iris help document, how many species of iris are included in the dataset?
+  AnswerChoices: 1;2;3;4
+  CorrectAnswer: 3
+  AnswerTests: omnitest(correctVal='3')
+  Hint: To find the number of species of iris, look at the Description in the iris help documentation in the lower right panel in RStudio.
+
+- Class: text_question
+  Output: Look back at the help file for the iris data.  What is the name of the journal where Fisher used the iris data to demonstrate some statistical methods?
+  CorrectAnswer: Annals of Eugenics
+  AnswerTests: omnitest(correctVal = 'Annals of Eugenics')
+  Hint: Look under 'Source' in the iris help file, Look for the journal article with Fisher as the author.  Type the name of the journal (the words in italics) exactly as written.
+
+- Class: text
+  Output: While the iris data itself is just a series of measurements on flowers from a few species of irises, it is worth noting there are links between eugenics and the development of many statistical methods. 
+
+- Class: text
+  Output: If you are not already familiar, it would be worth spending some time understanding what eugenics is, who R.A. Fisher is, and how the field of statistics was developed.
+
+- Class: video
+  Output: Answer Yes to the question below if you want to open a link to an article that can get you started on informing yourself about the links between genetics, statistics, and eugenics.
+  VideoLink: http://gppreview.com/2019/12/16/eugenics-ethics-statistical-analysis/
+
+- Class: text
+  Output: There is more to learn before you can use R for data analysis.  Hopefully this lesson got you started on understanding a few basic things about how R works.
+
+
+

@@ -1,0 +1,175 @@
+- Class: meta
+  Course: Intro to R for Biology
+  Lesson: Linear Regression with a Transformation
+  Author: Marney Pratt
+  Type: Standard
+  Organization: Smith College
+  Version: 2.4.5
+
+- Class: text
+  Output: Before completing this lesson, make sure you have completed and understand the previous lesson called "Linear Regression"
+
+- Class: video
+  Output: Answer Yes to the question below to open a link with some resources on linear regression as well as some of the code from this lesson.  Even if you understand linear regression, it is helpful to open this link and keep it open in a tab on your browser so you can refer back to it throughout this lesson as needed. 
+  VideoLink: https://docs.google.com/document/d/e/2PACX-1vTRMYrJYm4DtGURF6voY0AwhFFGnIvjYleoC5qgH5uVzRmCNXO9EJuKLK5ihvH3rMvWtnuPZ_7qU13i/pub
+
+- Class: text
+  Output: The data we will use in this lesson were collected by Smith College Bio 131 students.  They measured the annual twig growth in centimeters (ATG_cm) and the density of the invasive insect pest elongate hemlock scales (Fiorinia externa, EHS) measured in number of insects per centimeter of twig (all.EHS_density) for eastern hemlock trees at 4 locations in Western Massachusetts. 
+
+- Class: text
+  Output: Note that these data only include trees that had some growth and had some EHS present.
+
+- Class: text
+  Output: You can look at the metadata link in the resources for this lesson to learn more about the hemlocks data.
+
+- Class: cmd_question
+  Output: The hemlocks_reg.csv file has been imported for you and assigned the object name hemlocks. Use the View() function on the hemlocks dataset to look at the data.
+  CorrectAnswer: View(hemlocks)
+  AnswerTests: omnitest(correctExpr='View(hemlocks)')
+  Hint: Type View(hemlocks) in the console and press enter
+
+- Class: text
+  Output: Notice that there are measurements made on the same tree at different times (each tree has a unique tag number to identify it).  If we do a regression analysis on the data in this format, then our measurements for annual twig growth and EHS density are not independent because the measurements from the same tree are not independent.
+
+- Class: text
+  Output: To get around this problem, let's take the average for each tree so we only have one measurement for each tree.
+
+- Class: script
+  Output: I've opened an R script for you to calculate the average ATG and EHS density for each tree. You don't need to make any changes to this scrip. Type submit() at the prompt when you are done examining the code.
+  AnswerTests: script_vals_identical()
+  Hint: Type submit() at the prompt and hit enter when you are done looking over the code in the script.
+  Script: script1.R
+
+- Class: cmd_question
+  Output: Use the View() function on the new hemlocks.sum dataset to look at the data.
+  CorrectAnswer: View(hemlocks.sum)
+  AnswerTests: omnitest(correctExpr='View(hemlocks.sum)')
+  Hint: Type View(hemlocks.sum) in the console and press enter
+
+- Class: text
+  Output: Notice that there is now only one row per tree tag.  The column labeled N shows how many times each tree was measured.  Notice that some trees were measured only once while others were measured 2-3 times (and one was measured 6 times!)
+
+
+- Class: script
+  Output: I've opened an R script for you to make a graph to visualize the relationship between mean annual twig growth and mean EHS density. Follow the directions in the script, save the script, and then type submit() at the prompt when you are done changing the code.
+  AnswerTests: script_vals_identical()
+  Hint: Type submit() at the prompt and hit enter when you are done making changes.  If R is giving you an error, look at the messages carefully to see if you can figure out what you need to change.
+  Script: script2.R
+
+
+- Class: text
+  Output: Make sure to click on the Plots tab in the lower right panel to see the graph resulting from your submitted script.
+
+- Class: text
+  Output: While it does look like there is generally greater annual twig growth at low EHS density, and higher annual twig growth and higher EHS density, the relationship doesn't look as clearly linear.  
+
+- Class: cmd_question
+  Output: Set up the linear regression model using the lm() function from the base stats package.  Remember that the formula for a linear model always is in the form y ~ x.  Then the next argument is the dataset you are using.  Set up the linear regression model -- call the new object model1, use mean_ATG and mean_EHS for the dependent and independent variables respectively, and remember that the dataset is called hemlocks.sum. (see the code from the last lesson in the resources if you need a refresher on the code for linear regression).
+  CorrectAnswer: model1 <- lm(mean_ATG ~ mean_EHS, data=hemlocks.sum)
+  AnswerTests: omnitest(correctExpr='model1 <- lm(mean_ATG ~ mean_EHS, data=hemlocks.sum)')
+  Hint: Type model1 <- lm(mean_ATG ~ mean_EHS, data=hemlocks.sum) in the console and press enter
+
+- Class: cmd_question
+  Output: Next use the autoplot() function on your linear model (model1) to see the diagnostic plots. 
+  CorrectAnswer: autoplot(model1)
+  AnswerTests: omnitest(correctExpr='autoplot(model1)')
+  Hint: Type autoplot(model1) in the console and press enter
+
+- Class: text
+  Output: Make sure to click on the Plots tab in the lower right panel to see the diagnostic plots. 
+
+- Class: text
+  Output: If you need a reminder about what these plots indicate, you can see the link called "Linear Regression Assumptions and Diagnostics in R - Essentials" in the resources link for this lesson.
+
+- Class: mult_question
+  Output: Do you see anything in the diagnostic plots that are concerning and suggest that a linear regression model is not appropriate?
+  AnswerChoices: yes;no
+  CorrectAnswer: yes
+  AnswerTests: omnitest(correctVal='yes')
+  Hint: Look at the diagnostic plots -- do you see a pattern in the points in the Residuals vs Fitted plot?  It is important that the points are evenly spread around the dotted line at zero.  Are there other areas for concern that indicate that these data do not fit the assumptions of a linear regression well?
+
+- Class: text
+  Output: There is enough concerning in the diagnostic plots to suggest that a simple linear regression is not the best way to model these data.  However, sometimes we can do a transformation of the variables that make the data fit the assumptions better. 
+
+- Class: text
+  Output:  A common transformation is to take the logarithm of one of both of the variables.  This is easy to try by just adding log() around each variable name. But note that because you can't take the logarithm of zero, you can't log transform a variable if there are zeros in it.  If there are zeros, you can add a constant (such as 1) before taking the logarithm
+
+- Class: text
+  Output:  In this example, there were a few trees with zero growth or no EHS on a particular branch in the original data.  To make things simpler, we are just looking at the trees that had some growth and some EHS present for this example so we won't need to add a constant in this case (I removed the few zero values before importing the data).  Thus, we can just take the logarithm of each variable.  Let's give it a try.
+
+- Class: cmd_question
+  Output: Set up the linear regression model using this code -- model2 <- lm(log(mean_ATG) ~ log(mean_EHS), data=hemlocks.sum)
+  CorrectAnswer: model2 <- lm(log(mean_ATG) ~ log(mean_EHS), data=hemlocks.sum)
+  AnswerTests: omnitest(correctExpr='model2 <- lm(log(mean_ATG) ~ log(mean_EHS), data=hemlocks.sum)')
+  Hint: Type model2 <- lm(log(mean_ATG) ~ log(mean_EHS), data=hemlocks.sum) in the console and press enter
+
+- Class: cmd_question
+  Output: Next use the autoplot() function on your linear model (model2) to see the diagnostic plots. 
+  CorrectAnswer: autoplot(model2)
+  AnswerTests: omnitest(correctExpr='autoplot(model2)')
+  Hint: Type autoplot(model2) in the console and press enter
+
+- Class: text
+  Output: Make sure to click on the Plots tab in the lower right panel to see the diagnostic plots. 
+
+- Class: mult_question
+  Output: Did the log transformation of both of the variables help the data fit the assumptions of linear regression better?
+  AnswerChoices: yes;no
+  CorrectAnswer: yes
+  AnswerTests: omnitest(correctVal='yes')
+  Hint:  Does the spread of points look more evenly spread around the zero line in the Residuals vs Fitted plot?  Do the points fit the dotted line better in the Normal Q-Q plot? Anything else look different and fit the assumptions of linear regression better?
+
+- Class: cmd_question
+  Output: Since the log transformed data fit the assumptions of linear regression better, let's look at the results of that model. Use the summary() function on your linear model with log transformed data (model2) to look at the model results 
+  CorrectAnswer: summary(model2)
+  AnswerTests: omnitest(correctExpr='summary(model2)')
+  Hint: Type summary(model2) in the console and press enter
+
+
+- Class: mult_question
+  Output: Can we say that log(annual twig growth) increases significantly with log(EHS density)?
+  AnswerChoices: yes;no
+  CorrectAnswer: yes
+  AnswerTests: omnitest(correctVal='yes')
+  Hint: Remember, if the p-value is small and the slope is positive then we can say there is a significant positive relationship. 
+
+
+- Class: text
+  Output: Because the p-value is small (P = 0.001) we can say the slope is singificantly different than zero and thus there is a relationship.
+
+- Class: text
+  Output:  When interpreting the results, don't forget that your variables were log transformed so the equation of the line from this model would be log(mean_ATG) = -0.187*log(mean_EHS) + 1.290. 
+
+- Class: text
+  Output: The interpretation of this slope estimate is that a 1% increase in EHS density would give an 0.187% decrease in annual twig growth.
+
+- Class: mult_question
+  Output: How tightly do the points fit the line in the log-log model (model2)?
+  AnswerChoices: very tight fit;moderate fit;the points do not fit the line very tightly
+  CorrectAnswer: the points do not fit the line very tightly
+  AnswerTests: omnitest(correctVal='the points do not fit the line very tightly')
+  Hint: Look at the R-squared value -- is it close to 1 (tight fit) or close to zero (poor fit) or somewhere in between?
+
+- Class: script
+  Output: I've opened a new R script for you to make a nice graph that you could put in a paper or presentation. You don't need to make any changes to this scrip. Type submit() at the prompt when you are done examining the code.
+  AnswerTests: script_vals_identical()
+  Hint: Type submit() at the prompt and hit enter when you are done looking over the code in the script.
+  Script: script3.R
+
+- Class: text
+  Output: Notice that the axes are linear but the values show are log transformed (the points are the log transformed values)
+
+- Class: text
+  Output:  Alternatively, we can graph the original values but make the axes on a log-log scale.
+
+- Class: script
+  Output: I've opened a new R script for with the same graph as before except the axes are log-log and the values graphed are in the original untransformed values. You don't need to make any changes to this scrip. Type submit() at the prompt when you are done examining the code.
+  AnswerTests: script_vals_identical()
+  Hint: Type submit() at the prompt and hit enter when you are done looking over the code in the script.
+  Script: script4.R
+
+- Class: text
+  Output: Notice that the graph looks the same as the previous one (you can scroll through the graphs by clicking the left or right arrows at the top left of the Plots tab) except the scale is a log-log scale.  What is nice about this version is that you can look at the points in the original scale and units rather than trying to interpret the log-transformed values.
+
+- Class: text
+  Output: While the results of this regression show that EHS does not have a strong effect on the growth of the hemlock trees (the slope is not steep and the R-squared is very low), greater EHS density does have a measurable negative effect on hemlock growth (P = 0.001 for the slope indicating that it is significantly different from zero).

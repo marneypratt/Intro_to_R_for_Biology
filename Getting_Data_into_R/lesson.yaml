@@ -1,0 +1,212 @@
+- Class: meta
+  Course: Intro to R for Biology
+  Lesson: Getting Data into R
+  Author: Marney Pratt
+  Type: Standard
+  Organization: Smith College
+  Version: 2.4.4
+
+
+- Class: video
+  Output: Answer Yes to the question below if you want to open a link with some resources for this lesson.  It is helpful to open this link and keep it open in a tab on your browser so you can refer back to it throughout this lesson as needed. 
+  VideoLink: https://docs.google.com/document/d/e/2PACX-1vTRMYrJYm4DtGURF6voY0AwhFFGnIvjYleoC5qgH5uVzRmCNXO9EJuKLK5ihvH3rMvWtnuPZ_7qU13i/pub
+
+- Class: text
+  Output: Before you can start analyzing any data in R, you need to be able to get your data into R
+
+- Class: text
+  Output: Importing data into R can be more difficult than it sounds.  It is especially important to have the data in the right format before you even try to import it into R.
+  
+- Class: text
+  Output: Once you have imported your data, you will need to check to see if it loaded correctly.
+
+- Class: text
+  Output: You will need to know the following to make sure your data has correctly loaded into R - (1) number of observations (=rows), (2) names and number of variables (=columns), (3) variables are correct type, and (4) if any are variables is a category that has different groups (=factor) then they have the right number of groups (=levels)
+
+- Class: cmd_question
+  Output: Before we get started, let's make sure R's Global Environment is cleared of any previous work.  Type rm(list=ls()) into the console and then press Enter.
+  CorrectAnswer: rm(list=ls())
+  AnswerTests: omnitest(correctExpr='rm(list=ls())')
+  Hint: Type rm(list=ls()) and then press Enter
+
+- Class: text
+  Output: Let's start with a built-in dataset to make sure you are familiar with the structure of datasets for use in R.  We will use the iris data to start with.
+
+- Class: cmd_question
+  Output: To check the number of rows and columns in a dataset, you can use the dim() function.  Type dim(iris) into the console and then press Enter.
+  CorrectAnswer: dim(iris)
+  AnswerTests: omnitest(correctExpr='dim(iris)')
+  Hint: Type dim(iris) and then press Enter.
+  
+- Class: text
+  Output: The first number in the dim() output is the number of rows and the second number is the number of columns
+
+- Class: cmd_question
+  Output: To check the variable names (which are in the first row of each column) in a dataset, you can use the names() function.  Type names(iris) into the console.
+  CorrectAnswer: names(iris)
+  AnswerTests: omnitest(correctExpr='names(iris)')
+  Hint: Type names(iris) and then press Enter.
+
+- Class: cmd_question
+  Output: To look at the first few rows of a data frame, use the head() function.  Type head(iris) into the console.
+  CorrectAnswer: head(iris)
+  AnswerTests: omnitest(correctExpr='head(iris)')
+  Hint: Type head(iris) and then press Enter.
+
+- Class: cmd_question
+  Output: You can look at the structure of the data frame more holistically by using the str() function.  Type str(iris) into the console.
+  CorrectAnswer: str(iris)
+  AnswerTests: omnitest(correctExpr='str(iris)')
+  Hint: Type str(iris) and then press Enter.
+
+- Class: text
+  Output: The str() function gives the type of object and then the number of rows and columns on the first line. Then it lists each column and gives the variable name, variable type (numeric, factors, etc) and the first few values for the variable.  For factors it also gives the number of levels and the names of the first few levels
+
+- Class: mult_question
+  Output: Which variable in the iris data frame is a factor? (you can scroll up through the console to see the results of the str() function)
+  AnswerChoices: Species;Sepal.Length;Sepal.Width;Petal.Length;Petal.Width
+  CorrectAnswer: Species
+  AnswerTests: omnitest(correctVal='Species')
+  Hint: The str() function gives output that lists the type of variable next to the name of each variable.  Which one says Factor next to it?
+
+- Class: cmd_question
+  Output: You can also use the View() function to see the whole dataset in a read-only spreadsheet form.  This is not practical for very large datasets but is fine for the iris dataset.  Type View(iris)
+  CorrectAnswer: View(iris)
+  AnswerTests: omnitest(correctExpr='View(iris)')
+  Hint: Type View(iris) and then press Enter.
+
+- Class: text
+  Output: Now that you know how to look at the structure of a data frame, you may have noticed that the iris data frame has a particular structure.  Each column is a variable with the name of the variable in the first row.  After the first row (which has the column names), each row contains the values for one flower (we call this an "observation").  Each cell has a single value in it.
+
+- Class: text
+  Output: We call this type of structure "tidy" data. This course focuses on using a group of packages called the "tidyverse" that all require data to be in "tidy" format.
+
+- Class: text
+  Output: Note that variable names should be kept as short as possible and cannot have any spaces or special characters.  See the resources for this lesson for more information.
+
+- Class: text
+  Output: For all the lessons in this course, we will use a simple spreadsheet file format called a comma-separated values file or csv file to import data.  This file type is the most commonly used and will work with any software that can handle spreadsheets.  For most software, you can use functions such as SaveAs, Download as, or Export and chose .csv as the file type to make a csv file.
+
+- Class: text
+  Output: We are going to use a package called readr from the tidyverse suite of packages to import data.  So first you have to load the readr package. (note that readr should have been installed for you when you loaded this course in swirl)
+
+- Class: cmd_question
+  Output: Type library(readr) to load the readr package
+  CorrectAnswer: library(readr)
+  AnswerTests: omnitest(correctExpr='library(readr)')
+  Hint: Type library(readr) in the console and then press Enter
+
+- Class: cmd_question
+  Output: There are many ways to import data, but in most cases you will need to know where the file you want to load is on your computer. To see where RStudio is currently looking for files (called your "working directory") type getwd()
+
+  CorrectAnswer: getwd()
+  AnswerTests: omnitest(correctExpr='getwd()')
+  Hint: Type getwd() leaving it blank inside the parentheses
+
+- Class: text
+  Output: If you are working in a project in a cloud-based version of RStudio, getwd() may give an output that looks something like this -- "/cloud/introR4bio" or "/Users/username/introR4bio".  If you are working on the desktop of your computer, the output will be a longer file path.
+
+- Class: text
+  Output: The hemlock_diam.csv file that comes with this lesson needs to be in the working directory for you to be able to import it with readr.  The file may already be where you need it. If the file is where you want your working directory to be, then you can skip the next few instructions and move forward to the next prompt (looks like this >).
+
+- Class: text
+  Output: If the hemlock_diam.csv data file is not on your computer or not in your cloud-based working directory you will need to go to the resources for this course to download the data file. 
+
+- Class: text
+  Output: In the resources link, find the section called "Data used in this course" and then click on "hemlock_diam.csv".  Download the file to your computer to your working directory or where you can easily find it (make sure to rename the file to just be "hemlock_diam.csv").  
+
+- Class: text
+  Output: If you are working in a cloud-based version of RStudio you may need to click on Upload in the Files tab in the lower right panel and then browse to where you downloaded hemlock_diam.csv on your computer.
+
+- Class: text
+  Output: Now that you have the hemlock_diam.csv file where you need it, let's practice setting the working directory to that folder where the data file is (even if it is already set to the right folder)
+
+- Class: cmd_question
+  Output: In the menu for RStudio, go to "Session" --> "Set Working Directory" --> "Choose Directory..."  and choose the folder where the hemlock_diam.csv file is located.  (if you are working on your desktop, make sure to have a folder just for this swirl class set up on your computer that has the data file in it).
+  CorrectAnswer: setwd(~/)
+  AnswerTests: expr_uses_func('setwd')
+  Hint: go to "Session" --> "Set Working Directory" --> "Choose Directory..."  and choose the folder where the hemlock_diam.csv file is located.
+
+- Class: text
+  Output: If you are using a cloud-based version of RStudio then setting the working directory may look something like this setwd("~/introR4bio").  If you are working on your desktop, then you should see a file path specific to your computer.
+
+- Class: cmd_question
+  Output: Use the read_csv() function to load the hemlocks_diam.csv file and assign it to an object named hemlocks by typing hemlocks <- read_csv("hemlock_diam.csv")
+  CorrectAnswer: hemlocks <- read_csv("hemlock_diam.csv")
+  AnswerTests: omnitest(correctExpr='hemlocks <- read_csv("hemlock_diam.csv")')
+  Hint: Type hemlocks <- read_csv("hemlock_diam.csv") then press Enter.  Type ?read_csv for more information about the read_csv function in the readr package.
+
+- Class: text
+  Output: If your data imported and you gave the object the right name, it should show up in the Global Environment panel in the upper right.  It also shows the number of observations (=rows) and variables (=columns) there as well.
+
+- Class: cmd_question
+  Output: How many rows are there in the hemlocks dataset? (type the number below)
+  CorrectAnswer: 298
+  AnswerTests: omnitest(correctExpr='298')
+  Hint: Look at the number of observations for the hemlocks object in the Global Environment
+
+- Class: cmd_question
+  Output: How many columns are there in the hemlocks dataset? (type the number below)
+  CorrectAnswer: 7
+  AnswerTests: omnitest(correctExpr='7')
+  Hint: Look at the number of variables for the hemlocks object in the Global Environment
+
+- Class: cmd_question
+  Output: Look at the structure of the hemlocks dataset using the str() function
+  CorrectAnswer: str(hemlocks)
+  AnswerTests: omnitest(correctExpr='str(hemlocks)')
+  Hint: Type str(hemlocks)
+
+- Class: mult_question
+  Output: What type is the "date" variable in the hemlocks data frame according to the str() function?
+  AnswerChoices: character (=chr);number (=num);factor (=Factor);logical (=logi); integer (=int); date (=date)
+  CorrectAnswer: character (=chr)
+  AnswerTests: omnitest(correctVal='character (=chr)')
+  Hint: Type in str(hemlocks) and look at the type listed next to date.
+
+- Class: text
+  Output: Notice that some of the variables have the wrong type.  read_csv does its best to guess the right type for each column, but it doesn't always get them right.
+
+- Class: cmd_question
+  Output: To tell R the column called "date" is a date type this code in the console -- hemlocks <- read_csv("hemlock_diam.csv", col_types = cols(date = col_date(format = "%m/%d/%Y")))
+  CorrectAnswer: hemlocks <- read_csv("hemlock_diam.csv", col_types = cols(date = col_date(format = "%m/%d/%Y")))
+  AnswerTests: omnitest(correctExpr='hemlocks <- read_csv("hemlock_diam.csv", col_types = cols(date = col_date(format = "%m/%d/%Y")))')
+  Hint: Type this code in the console -- hemlocks <- read_csv("hemlock_diam.csv", col_types = cols(date = col_date(format = "%m/%d/%Y")))
+
+- Class: cmd_question
+  Output: Look at the structure of the hemlocks dataset now using the str() function.
+  CorrectAnswer: str(hemlocks)
+  AnswerTests: omnitest(correctExpr='str(hemlocks)')
+  Hint: Type str(hemlocks) in the console and then hit Enter
+
+- Class: text
+  Output: Note that the date column should now say it is a Date with the format "2016-03-08" etc.
+
+- Class: text
+  Output: Also note that all the columns with letters or words in them are imported as character strings.  This may be fine, but there are also times when we want a variable to be a factor when we want to use that variable for particular kinds of analysis or graphs.
+
+- Class: cmd_question
+  Output: To tell R the column called "location" is a factor type this code into the console -- hemlocks <- read_csv("hemlock_diam.csv", col_types = cols(location = col_factor(), date = col_date(format = "%m/%d/%Y")))
+  CorrectAnswer: hemlocks <- read_csv("hemlock_diam.csv", col_types = cols(location = col_factor(), date = col_date(format = "%m/%d/%Y")))
+  AnswerTests: omnitest(correctExpr='hemlocks <- read_csv("hemlock_diam.csv", col_types = cols(location = col_factor(), date = col_date(format = "%m/%d/%Y")))')
+  Hint: Type this code in the console -- hemlocks <- read_csv("hemlock_diam.csv", col_types = cols(location = col_factor(), date = col_date(format = "%m/%d/%Y")))
+
+- Class: cmd_question
+  Output: Check the structure of the hemlocks data frame one last time using str() (hint -- for a short cut to code you previously typed in the console, you can hit the up arrow key until you get to the code you want then edit if needed and press enter)
+  CorrectAnswer: str(hemlocks)
+  AnswerTests: omnitest(correctExpr='str(hemlocks)')
+  Hint: Type str(hemlocks)
+
+- Class: text
+  Output: Notice that now the location column is listed as being a factor with 4 levels (these are the 4 different locations represented by abbreviations)
+
+- Class: text
+  Output: Now that you have successfully imported a data file into R, you can use it to visualize or analyze the data.
+
+- Class: figure
+  Output: Look at the Plots window in the lower right panel (select the Plots tab) to see a graph of the relationship between the log of the height and log of the diameter of hemlock trees for each location.
+  Figure: tree.size.R
+  FigureType: new
+
+- Class: text
+  Output: If you complete the remaining lessons in this course, you will be able to make graphs like this too.  Keep up the good work and come back to refresh these data importing skills anytime.

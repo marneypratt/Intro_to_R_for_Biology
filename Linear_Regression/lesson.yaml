@@ -1,0 +1,203 @@
+- Class: meta
+  Course: Intro to R for Biology
+  Lesson: Linear Regression
+  Author: Marney Pratt
+  Type: Standard
+  Organization: Smith College
+  Version: 2.4.5
+
+- Class: text
+  Output: Comparing two continuous variables is very common in Biology.  For example, comparing the growth rate of a plant as a function of soil nutrients or investigating the density of prey as a function of predator density.  
+
+- Class: text
+  Output: Before completing this lesson, you should complete all the previous lessons in this course.  
+
+- Class: text
+  Output: It is also helpful to be familiar with what linear regression is.
+
+- Class: video
+  Output: Answer Yes to the question below to open a link with some resources on linear regression as well as some of the code from this lesson.  Even if you understand linear regression, it is helpful to open this link and keep it open in a tab on your browser so you can refer back to it throughout this lesson as needed. 
+  VideoLink: https://docs.google.com/document/d/e/2PACX-1vTRMYrJYm4DtGURF6voY0AwhFFGnIvjYleoC5qgH5uVzRmCNXO9EJuKLK5ihvH3rMvWtnuPZ_7qU13i/pub
+
+- Class: text
+  Output: We will start with a very simple example using the Davis dataset which includes the height and weight for subjects engaged in regular exercise.
+
+- Class: cmd_question
+  Output: The Davis dataset has been loaded for you.  Type ?Davis in the console to pull up the help menu information on this dataset.
+  CorrectAnswer: ?Davis
+  AnswerTests: omnitest(correctExpr='?Davis')
+  Hint: Type ?Davis in the console and press enter
+
+- Class: cmd_question
+  Output: The Davis dataset has one incorrect data point in it.  Remove the point and rename the dataset using the following code -- davis <- filter(Davis, height>60)
+  CorrectAnswer: davis <- filter(Davis, height>60)
+  AnswerTests: omnitest(correctExpr='davis <- filter(Davis, height>60)')
+  Hint: Type davis <- filter(Davis, height>60) in the console and press enter
+
+- Class: script
+  Output: I've opened an R script for you to make a graph. Follow the directions in the script, then save the script and type submit() at the prompt when you are ready.
+  AnswerTests: script_vals_identical()
+  Hint: Read the directions in the script carefully. If R is giving you an error, try to understand what it is telling you. Save the script and type submit() at the prompt when you are ready. Don't forget that the dependent variable (y) is the one we are measuring as a function of the independent variable (x).
+  Script: script1.R
+
+- Class: text
+  Output: Make sure to click on the Plots tab in the lower right panel to see the graph resulting from your submitted script.
+
+- Class: mult_question
+  Output: Does this relationship look somewhat linear?
+  AnswerChoices: yes;no
+  CorrectAnswer: yes
+  AnswerTests: omnitest(correctVal='yes')
+  Hint: Look at the pattern in the points, do it look like the points have a somewhat linear relationship?
+
+- Class: cmd_question
+  Output: Set up the linear regression model using the lm() function from the base stats package.  Note that the formula for a linear model always is in the form y ~ x.  Then the next argument is the dataset you are using.  Set up the linear regression model using the following code -- model1 <- lm(weight ~ height, data=davis)
+  CorrectAnswer: model1 <- lm(weight ~ height, data=davis)
+  AnswerTests: omnitest(correctExpr='model1 <- lm(weight ~ height, data=davis)')
+  Hint: Type model1 <- lm(weight ~ height, data=davis) in the console and press enter
+
+- Class: text
+  Output: All we have done so far is set up the model.  We have not asked R to show us any of the model results yet.
+
+- Class: text
+  Output: Linear regression has several assumptions.  We can use the autoplot() function in the ggfortify package to help use visualize the results of the model to test some of the assumptions of a linear regression.
+
+- Class: cmd_question
+  Output: Use the autoplot() function on your linear model using the following code -- autoplot(model1) 
+  CorrectAnswer: autoplot(model1)
+  AnswerTests: omnitest(correctExpr='autoplot(model1)')
+  Hint: Type autoplot(model1) in the console and press enter
+
+- Class: text
+  Output: Make sure to click on the Plots tab in the lower right panel to see the set of 4 groups that result from the autoplot() function
+
+- Class: text
+  Output: First note that the figures have some points identified by a number.  The numbered points in each plot represent extreme values for each diagnostic and are identified by row numbers from the dataset.  These points are good to check to make sure there wasn't an error in entering the data.
+
+- Class: text
+  Output: The top left graph (Residuals vs Fitted) tells us if a line is a good way to model the data.  The cloud of points should be roughly symmetric above and below the zero line.  If there are lumps or dips then fitting untransformed data with a line is not a good idea. 
+
+- Class: text
+  Output: The points are not perfectly spread around the zero line, but it is pretty good. It is always a judgement call on whether you think the data fit the assumptions well or not.  The Residuals vs Fitted plot in this example does not show any troubling patterns in the data that would prevent us from running a linear regression.
+
+- Class: text
+  Output: The top right graph (Normal Q-Q) tells us if the residuals are normally distributed. Recall that the residuals are how far each point is from the line estimated from the regression model.  The dots are the residuals and the dashed line is what you would expect if the residuals had a normal distribution (an important assumption of linear regression).  The points usually don't fit the dashed line perfectly, but as long as most of the points follow the dotted line it is generally fine to use linear regression.
+
+- Class: text
+  Output:  There are a few points that don't fit the dotted line, but the vast majority of the points follow the dotted line in the Normal Q-Q plot in this example.  
+
+- Class: text
+  Output: The bottom left graph (Scale-Location) assesses the assumption of equal variance.  There should be no pattern in the points - they should just be a nice cloud of evenly spaced points.
+
+- Class: text
+  Output: This cloud of points has a slight upswing at the higher fitted values, but nothing terribly concerning.  Overall it shows no strong pattern in the points that would prevent us from running a linear regression.
+
+- Class: text
+  Output: The bottom right graph (Residuals vs Leverage) looks at whether there are influential data points and outliers.  Points are considered outliers when the standardized residual is greater than 3 in absolute value.  Influential points located in the upper or lower right (higher leverage and higher standardized residual) are points that can have a large effect on the regression line (the line would change a lot if these points were excluded).  Don't worry about weird patterns in the points in this graph - just look for points greater than 3 or less than -3 standardized residuals (these would be considered outliers) and points in the upper right or lower right (high leverage and high standardized residuals in absolute value).
+
+- Class: text
+  Output:  For this example, the point labeled 20 is an outlier because it is close to 5 standardized residuals.  However, the point labeled 20 doesn't have high leverage so it may not have a large effect on the regression line fitted in the model.  The point labeled 16 may have some concerning leverage but given that it is not considered an outlier (standardized residual is around -2.5 which is not larger than -3) it is probably not too concerning.  
+
+- Class: text
+  Output: Overall, in all 4 diagnostic plots, there is nothing terribly concerning and thus we will go ahead and look at the output of this linear regression model.
+
+- Class: text
+  Output: For more detailed information about these plots, you can see the link called "Linear Regression Assumptions and Diagnostics in R - Essentials" in the resources link for this lesson.
+
+- Class: cmd_question
+  Output: Use the summary() function on your linear model to look at the model results by using the following code -- summary(model1) 
+  CorrectAnswer: summary(model1)
+  AnswerTests: omnitest(correctExpr='summary(model1)')
+  Hint: Type summary(model1) in the console and press enter
+
+- Class: text
+  Output: The summary output from a linear regression model takes some explaining.  One thing we are interested in is the equation of the regression line  - the slope and intercept estimates are all we need to give the equation of the line.
+
+- Class: text
+  Output: Look at the table in the output labeled "Coefficients".  The first row in this table is labeled (Intercept).  The column labeled "Estimate" gives the estimate for that coefficient.  In other words, -130.74698 is the estimate given for the intercept for this model.  
+
+- Class: text
+  Output: The other value we might be interested in for this row is the p-value (labeled Pr(>|t|)).  For the intercept, this p-value will tell us if the intercept is significantly different from zero.  
+
+- Class: text
+  Output: Knowing whether or not the intercept is different from zero is often not something we are interested in.  However, we ARE usually interested in whether the slope is significantly different from zero.  
+
+- Class: text
+  Output:  Where do we find the information for the slope? The output doesn't label anything as the slope.  What it does do is label the slope results with the covariate, which is the independent continuous variable, which in this case is height.
+
+- Class: text
+  Output: The row labeled "height" gives the results for the slope.  The estimate for the slope is 1.14922.
+
+- Class: text
+  Output: The other value in the results for the slope that we care about is the p-value.  If the p-value for the slope is > 0.05, then that means we can't say there is a significant linear relationship between these variables. In other words, if the slope is not different from zero, then that means y is not changing as x changes and there is no evidence for a relationship.
+
+- Class: text
+  Output: Note that both p-values show a very small number.  2e-16 means 2 times 10 to the negative 16.  This is a VERY small number.  We would report such a small p-value by just saying that P < 0.0001.
+
+- Class: text
+  Output: When the p-value is small (< or = 0.05), we can say there is a significant relationship (the slope is significantly different from zero).  We can look at the slope estimate to tell if the relationship is positive or negative.  We could also look at a graph of the data to see if the relationship is positive or negative once we know that the slope is significantly different from zero.
+
+- Class: mult_question
+  Output: Can we say that weight increases significantly with height?
+  AnswerChoices: yes;no
+  CorrectAnswer: yes
+  AnswerTests: omnitest(correctVal='yes')
+  Hint: Remember, if the p-value is small and the slope is positive then we can say there is a significant positive relationship.  
+
+- Class: text
+  Output: Another value we are interested in from our regression results is the R-squared value.  An R-squared value tells you how well the points fit the line, and it varies between 0-1. The closer it is to 1, the tighter the points fit the line. 
+
+- Class: text
+  Output: The estimate for R-squared that you should use from this output is the "Multiple R-squared" value.  Only use the Adjusted R-squared value when performing a multiple regression.  
+
+- Class: text
+  Output: In this case, the R-squared value is 0.594, which tells us that 59% of the variation in weight is predicted by the variation in height. 
+
+- Class: text
+  Output:  To report the results of a simple linear regression, give the equation of the line (or at least give the slope estimate if you are not interested in the full equation of the line), the R-squared value, and the results for the slope including the exact p-value for the slope (you can say P < 0.0001 if the p-value is very small.  But if P > or = to 0.0001 then give the exact value and round it to 1-2 significant figures), the degrees of freedom, and the t-value.
+
+- Class: text
+  Output: Make sure you round values appropriately for all your results.  For additional help with rules around significant digits and rounding, see "For help with rounding values properly" under the General Resources section in the resources link given at the start of this lesson.
+
+- Class: text
+  Output: For a p-value that is > or = to 0.0001 then give the exact value and round it to 1-2 significant figures.  For smaller p-values just say  P < 0.0001.
+
+- Class: text
+  Output: For test statistics (t-values, F-values, etc), rounding to 2 significant digits is a good rule of thumb.
+
+- Class: text
+  Output: Round the R-squared to 1-2 significant digits.
+
+- Class: text
+  Output: Round the estimates of a regression to the same decimal place as the standard error for those coefficients rounded to the 1-2 significant digits. 
+
+- Class: text
+  Output: Since the standard error for the intercept is 11.56271, we would round that to 10 if using one significant digit - which is rounded to the tens place.  Thus, we would round the estimate of the intercept to the tens place as well (-130).  
+
+- Class: mult_question
+  Output: How would we round the slope estimate if we rounded the standard error to 1 significant digit (scroll up through the console to see the linear regression results output)
+  AnswerChoices: 1;1.1;1.2;1.15;1.149;1.1492;1.14922
+  CorrectAnswer: 1.15
+  AnswerTests: omnitest(correctVal='1.15')
+  Hint: Rounding the standard error of the slope (0.06769) to 1 significant digit gives 0.07.  Then you need to round the slope estimate to the same decimal place, which is the hundredths place.
+
+- Class: text
+  Output: To summarize, we could report the results like this... There was a significant positive relationship between the height and weight (weight = (1.15*height) - 130, R-squared = 0.59; slope t = 17, d.f. = 197, P < 0.0001).
+
+- Class: text
+  Output: In addition to writing your results in text form, make sure you make a nice graph with the line from the linear regression shown.
+
+- Class: script
+  Output: I've opened a final R script for you to make a nicer graph that you could put in a paper or presentation. You don't need to make any changes to this scrip. Type submit() at the prompt when you are done examining the code.
+  AnswerTests: script_vals_identical()
+  Hint: Type submit() at the prompt and hit enter when you are done looking over the code in the script.
+  Script: script2.R
+
+- Class: text
+  Output: Notice that there is now a line with gray shading around it that has been added to the scatterplot (Don't forget to click on the Plots tab to see the graph). The line is the equation of the line from the linear regression and the shading is the 95% confidence interval around the line.
+
+- Class: text
+  Output: The result that weight increases with height for humans is not very profound.  Do note though that ALL the variation in weight is not explained by height. In this dataset, a little over half of the variation (59%) in the weight was explained by the variation in the height.  People can have very different builds and body-types at the same height.
+
+- Class: text
+  Output: This example was meant to be fairly straightforward.  In the next lesson, we deal with a linear regression example where things are not quite as simple.

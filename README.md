@@ -53,7 +53,7 @@ Here is a list of the lessons available
 
 Note that this course uses the [Tidyverse](https://www.tidyverse.org/) especially the readr, dplyr, and ggplot2 packages as well as ggfortify (an extension for ggplot2).
 
-A few lessons use the car and carData packages from [An R COmpanion to Applied Regression by John Fox and Sanford Weissberg](https://socialsciences.mcmaster.ca/jfox/Books/Companion/index.html)
+A few lessons use the car and carData packages from [An R Companion to Applied Regression by John Fox and Sanford Weissberg](https://socialsciences.mcmaster.ca/jfox/Books/Companion/index.html)
 
 
 Click here to open the [Resources for the Intro to R for Biology course webpage](https://docs.google.com/document/d/e/2PACX-1vTRMYrJYm4DtGURF6voY0AwhFFGnIvjYleoC5qgH5uVzRmCNXO9EJuKLK5ihvH3rMvWtnuPZ_7qU13i/pub) and keep that open while you work through the lessons.

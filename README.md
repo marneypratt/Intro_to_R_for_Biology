@@ -16,11 +16,11 @@ Install the swirl package and the **Intro to R for Biology** swirl course.
 
 `install.packages("swirl")`
 
-Be patient, it sometimes takes a little while for the package to download and install.
+Be patient, it sometimes takes a little while for the package to download and install. (You will need an internet connection to download packages)
 
-Note that there may be other packages you might need to install. For example, when I recently installed swirl, I had to also install the RCurl package to get swirl to load properly. It is also a good idea to make sure you have the most up to date version of the tidyverse package since we will use many tidyverse functions in the Intro to R for Biology swirl lessons. To install additional packages, use the `install.packages()` function (make sure to put the package name in quotes within the parentheses). Aslo note that you can install more than one package at once.  For example, to install RCurl and the tidyverse, use the following code:
+Note that there may be other packages you might need to install. For example, when I recently installed swirl, I had to also install the RCurl package to get swirl to load properly. It is also a good idea to make sure you have the most up to date version of the tidyverse, ggfortify, car, and carData packages since we will use these in the Intro to R for Biology Swirl lessons. To install additional packages, use the `install.packages()` function (make sure to put the package name in quotes within the parentheses). Also note that you can install more than one package at once.  For example, to install RCurl and the tidyverse, use ggfortify, car, and carData packages at once use the following code:
 
-`install.packages("RCurl","tidyverse")`
+`install.packages("RCurl","tidyverse", "ggfortify", "car", "carData")`
 
 2. Once the swirl package is installed (along with any other packages you might need), then you need to load swirl. This is similar to opening an app on your phone or computer. You will need to load the swirl package anytime you start a new session of R in RStudio. To load swirl, type this code into the RStudio console and press Enter:
 

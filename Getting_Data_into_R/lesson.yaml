@@ -104,7 +104,7 @@
   Hint: Type getwd() leaving it blank inside the parentheses
 
 - Class: text
-  Output: If you are working in a project in a cloud-based version of RStudio, getwd() may give an output that looks something like this -- "/cloud/introR4bio" or "/Users/username/introR4bio".  If you are working on the desktop of your computer, the output will be a longer file path.
+  Output: If you are working in a project in a cloud-based version of RStudio, getwd() may give an output that looks something like this -- "/cloud/Intro_to_R_for_Biology" or "/Users/username/Intro_to_R_for_Biology".  If you are working on the desktop of your computer, the output will be a longer file path.
 
 - Class: text
   Output: The hemlock_diam.csv file that comes with this lesson needs to be in the working directory for you to be able to import it with readr.  The file may already be where you need it. If the file is where you want your working directory to be, then you can skip the next few instructions and move forward to the next prompt (looks like this >).

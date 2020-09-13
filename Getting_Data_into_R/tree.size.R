@@ -1,5 +1,3 @@
-library(tidyverse)
-
 hemlocks <- read_csv("hemlock_diam.csv", col_types = cols(location = col_factor(), date = col_date(format = "%m/%d/%Y")))
 
 hemlocks.r <- hemlocks %>% filter(!is.na(height))

@@ -1,6 +1,6 @@
 hemlocks <- read_csv("hemlock_diam.csv", col_types = cols(location = col_factor(), date = col_date(format = "%m/%d/%Y")))
 
-hemlocks.r <- hemlocks %>% filter(!is.na(height))
+hemlocks.r <- hemlocks %>% dplyr::filter(!is.na(height))
 
 tree.size <- ggplot(data=hemlocks.r, aes(x=log(diameter), y=log(height), color=location)) +
   geom_point() +

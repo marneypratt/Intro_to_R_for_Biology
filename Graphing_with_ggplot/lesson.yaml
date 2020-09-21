@@ -226,13 +226,13 @@
   Output: One disadvantage of box plots is that they can hide your data.  You can't tell the sample size or more details about the distribution from just the box plots. However, we can add the data points to the box plots if desired.
 
 - Class: script
-  Output: Let's add the mean to our box plots. A new script has been opened for you.  You do not need to make any changes. Type submit() at the prompt after you have had a chance to look over the code and read the comments.
+  Output: Let's add the points to our box plots. A new script has been opened for you.  You do not need to make any changes. Type submit() at the prompt after you have had a chance to look over the code and read the comments.
   AnswerTests: script_vals_identical()
   Hint: Read the directions in the script carefully. If R is giving you an error, try to understand what it is telling you. Save the script and type submit() at the prompt when you are ready.
   Script: script11.R
 
 - Class: text
-  Output: Whether you include the mean or points on your box plots depends on whether they are useful for the particular dataset.  If you have really large sample sizes, including the points can be overwhelming and districting.  There are other types of plots (such as a violin plot) that may be better for very large sample sizes to show the distribution of the data.  We will not go over violin plots in this course.
+  Output: Whether you include the mean or points on your box plots depends on whether they are useful for the particular dataset.  If you have really large sample sizes, including the points can be overwhelming and districting.  There are other types of plots (such as a violin plot) that may be better for very large sample sizes to show the distribution of the data.  We will not go over violin plots in this lesson.
 
 - Class: cmd_question
   Output: Before moving on, let's use the ggsave() function to save the last graph you made and call it "box.jpg". Type the code below.

@@ -32,7 +32,7 @@
   Output: The data were collected by Smith College students from the Research in Biodiversity, Ecology, and Conservation (Bio 131) course beginning in March of 2015. The dataset includes data from several semesters, and four different locations in Western Massachusetts. See the resources for this lesson for a link to the metadata file that describes the dataset (includes precise locations, methodology, variable definitions, etc.).
 
 - Class: text
-  Output: Let's start by exploring invasive insectdensity at the 4 different forest locations.  The invasive insect is the elongate hemlock scale, which we will refer to as EHS in this lesson.
+  Output: Let's start by exploring invasive insect density at the 4 different forest locations.  The invasive insect is the elongate hemlock scale, which we will refer to as EHS in this lesson.
 
 - Class: mult_question
   Output: If we want to know if the density of EHS is different among the different forest locations, what would be the dependent variable?

@@ -1,4 +1,3 @@
 readr
 dplyr
 ggplot2
-ggbeeswarm

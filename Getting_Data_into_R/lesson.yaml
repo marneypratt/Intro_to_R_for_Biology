@@ -96,39 +96,6 @@
   AnswerTests: omnitest(correctExpr='library(readr)')
   Hint: Type library(readr) in the console and then press Enter
 
-- Class: cmd_question
-  Output: There are many ways to import data, but in most cases you will need to know where the file you want to load is on your computer. To see where RStudio is currently looking for files (called your "working directory") type getwd()
-
-  CorrectAnswer: getwd()
-  AnswerTests: omnitest(correctExpr='getwd()')
-  Hint: Type getwd() leaving it blank inside the parentheses
-
-- Class: text
-  Output: If you are working in a project in a cloud-based version of RStudio, getwd() may give an output that looks something like this -- "/cloud/Intro_to_R_for_Biology" or "/Users/username/Intro_to_R_for_Biology".  If you are working on the desktop of your computer, the output will be a longer file path.
-
-- Class: text
-  Output: The hemlock_diam.csv file that comes with this lesson needs to be in the working directory for you to be able to import it with readr.  The file may already be where you need it. If the file is where you want your working directory to be, then you can skip the next few instructions and move forward to the next prompt (looks like this >).
-
-- Class: text
-  Output: If the hemlock_diam.csv data file is not on your computer or not in your cloud-based working directory you will need to go to the resources for this course to download the data file. 
-
-- Class: text
-  Output: In the resources link, find the section called "Data used in this course" and then click on "hemlock_diam.csv".  Download the file to your computer to your working directory or where you can easily find it (make sure to rename the file to just be "hemlock_diam.csv").  
-
-- Class: text
-  Output: If you are working in a cloud-based version of RStudio you may need to click on Upload in the Files tab in the lower right panel and then browse to where you downloaded hemlock_diam.csv on your computer.
-
-- Class: text
-  Output: Now that you have the hemlock_diam.csv file where you need it, let's practice setting the working directory to that folder where the data file is (even if it is already set to the right folder)
-
-- Class: cmd_question
-  Output: In the menu for RStudio, go to "Session" --> "Set Working Directory" --> "Choose Directory..."  and choose the folder where the hemlock_diam.csv file is located.  (if you are working on your desktop, make sure to have a folder just for this swirl class set up on your computer that has the data file in it).
-  CorrectAnswer: setwd(~/)
-  AnswerTests: expr_uses_func('setwd')
-  Hint: go to "Session" --> "Set Working Directory" --> "Choose Directory..."  and choose the folder where the hemlock_diam.csv file is located.
-
-- Class: text
-  Output: If you are using a cloud-based version of RStudio then setting the working directory may look something like this setwd("~/introR4bio").  If you are working on your desktop, then you should see a file path specific to your computer.
 
 - Class: cmd_question
   Output: Use the read_csv() function to load the hemlocks_diam.csv file and assign it to an object named hemlocks by typing hemlocks <- read_csv("hemlock_diam.csv")
@@ -158,7 +125,7 @@
   Hint: Type str(hemlocks)
 
 - Class: mult_question
-  Output: What type is the "date" variable in the hemlocks data frame according to the str() function?
+  Output: What type is the "date" variable in the hemlocks data frame according to the str() function? (you can scroll up through the console to see the output from the previous code)
   AnswerChoices: character (=chr);number (=num);factor (=Factor);logical (=logi); integer (=int); date (=date)
   CorrectAnswer: character (=chr)
   AnswerTests: omnitest(correctVal='character (=chr)')
@@ -174,7 +141,7 @@
   Hint: Type this code in the console -- hemlocks <- read_csv("hemlock_diam.csv", col_types = cols(date = col_date(format = "%m/%d/%Y")))
 
 - Class: cmd_question
-  Output: Look at the structure of the hemlocks dataset now using the str() function.
+  Output: Look at the structure of the hemlocks dataset again using the str() function. (Hint - for a shortcut to code you previously typed in the console you can hit the up arrow key until you get to the code you want then edit if needed and press enter)
   CorrectAnswer: str(hemlocks)
   AnswerTests: omnitest(correctExpr='str(hemlocks)')
   Hint: Type str(hemlocks) in the console and then hit Enter
@@ -192,7 +159,7 @@
   Hint: Type this code in the console -- hemlocks <- read_csv("hemlock_diam.csv", col_types = cols(location = col_factor(), date = col_date(format = "%m/%d/%Y")))
 
 - Class: cmd_question
-  Output: Check the structure of the hemlocks data frame one last time using str() (hint -- for a short cut to code you previously typed in the console, you can hit the up arrow key until you get to the code you want then edit if needed and press enter)
+  Output: Check the structure of the hemlocks data frame one last time using str() (remember - for a shortcut to code you previously typed in the console you can hit the up arrow key until you get to the code you want then edit if needed and press enter)
   CorrectAnswer: str(hemlocks)
   AnswerTests: omnitest(correctExpr='str(hemlocks)')
   Hint: Type str(hemlocks)

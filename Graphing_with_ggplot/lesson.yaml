@@ -232,7 +232,7 @@
   Script: script11.R
 
 - Class: text
-  Output: Whether you include the mean or points on your box plots depends on whether they are useful for the particular dataset.  If you have really large sample sizes, including the points can be overwhelming and districting.  There are other types of plots (such as a violin plot) that may be better for very large sample sizes to show the distribution of the data.  We will not go over violin plots in this lesson.
+  Output: Whether you include the mean or points on your box plots depends on whether they are useful for the particular dataset.  If you have really large sample sizes, including the points can be overwhelming and distracting.  There are other types of plots (such as a violin plot) that may be better for very large sample sizes to show the distribution of the data.  We will not go over violin plots in this lesson.
 
 - Class: cmd_question
   Output: Before moving on, let's use the ggsave() function to save the last graph you made and call it "box.jpg". Type the code below.

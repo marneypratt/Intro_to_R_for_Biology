@@ -1,8 +1,8 @@
 # This code will give a histogram of the diameters of hemlock trees split by size class
 
-# Note that there was one larger tree as McLeish (MCL) that was 73 cm in diameter.
-
-# We set the max for the x-axis to 45 here using coord_cartesian(xlim = c(0,45)) 
+# Note that there was one larger tree at MacLeish (MCL) that was 73 cm in diameter
+# this one tree was cut off this graph because
+# we set the max for the x-axis to 45 here using coord_cartesian(xlim = c(0,45)) 
 # to be able to see the majority of the data better.
 
 # You don't need to make any changes to this script.
